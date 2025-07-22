@@ -1,0 +1,139 @@
+{% extends 'base.html'%} 
+    
+   {%load static %}
+  
+
+    {% block content %}
+
+<!-- navbar -->
+
+         <h4 class="ms-5"> Products</h4>
+<hr>
+<!-- Main Container -->
+<div class="container-fluid px-4">
+  <div class="row">
+
+    <!-- Filter Sidebar (col-3) -->
+   <div class="col-md-3 mb-4">
+      <form method="get" class="filter-panel">
+        <div class="filter-heading bg-dark text-white px-3 py-2 rounded-top">
+          <strong>Filter Products</strong>
+        </div>
+        <div class="filter-body border border-top-0 p-3 bg-white rounded-bottom">
+
+          <h6 class="filter-title mb-2">Categories</h6>
+          {% for cat in categories %}
+              <label>
+                 <input type="checkbox" name="category" value="{{ cat.id }}" class="filter-check me-1"
+                         {% if cat.id|stringformat:"s" in selected_categories %}checked{% endif %}>
+                  {{ cat.cat_name }}
+                </label>
+                <br>
+            {% endfor %}
+
+          <!-- Price Range (Sliding) --><hr>
+<!-- Price Range -->
+<h6 class="filter-title mb-2">Price Range (₹)</h6>
+
+<!-- written wala -->
+<div class="d-flex justify-content-between mb-2">
+  <input type="text" id="min_price_display" class="form-control text-center" style="width: 30%;">
+  <input type="text" id="max_price_display" class="form-control text-center" style="width: 45%;">
+</div>
+
+<!-- Hidden inputs to submit (slider) -->
+<input type="hidden" name="min_price" id="min_price" value="{{ selected_min_price }}">
+<input type="hidden" name="max_price" id="max_price" value="{{ selected_max_price }}">
+
+<!-- Slider bar -->
+<div id="price-slider" class="mb-3"></div>
+
+
+
+          <!-- Availability -->
+          <h6 class="filter-title mb-2">Availability</h6>
+          <div class="mb-3">
+            <label><input type="checkbox" name="is_available" value="in" class="filter-check me-1"
+                          {% if 'in' in selected_availability %}checked{% endif %}> In Stock</label><br>
+            <label><input type="checkbox" name="is_available" value="out" class="filter-check me-1"
+                          {% if 'out' in selected_availability %}checked{% endif %}> Out of Stock</label>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-outline-danger w-100 filter-btn">Apply Filters</button>
+        </div>
+      </form>
+    </div>
+
+
+    
+
+
+    <!-- Product Grid (col-9) -->
+    <div class="col-md-9">
+      <div class="row">
+        {% for product in page_object %}
+        <div class="col-6 col-md-4 col-lg-3 mb-4">
+          <a href="{%url 'product_details' product.id %}">
+          <div class="product-card shadow-sm h-100 rounded">
+            {% with product.details_image.all|first as first_image %}
+        {% if first_image %}
+          <img src="{{ first_image.image.url }}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="{{ product.product_name }}">
+        {% else %}
+          <img src="{% static 'images/no-image.png' %}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="No Image">
+        {% endif %}
+      {% endwith %}
+            <div class="p-3 text-center">
+              <h6 class="card-title">{{ product.product_name |truncatewords:6 }}</h6>
+              <div class="mb-1">
+                    <span class="text-muted text-decoration-line-through me-2 price-sm">₹{{ product.original_price }}</span>
+                    <span class="text-danger fw-bold price-sm">₹{{ product.discount_price }}</span>
+                  </div>
+
+                  <span class="text-success small d-block mb-2"><i class="fas fa-shipping-fast me-1"></i>Free shipping</span>
+              <a href="{% url 'add_to_cart' product.id %}" class="btn btn-sm btn-dark">Add to Cart</a> 
+              <button class="btn btn-sm btn-warning">Buy Now</button>
+            </div>
+          </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- pagination -->
+<nav aria-label="Page Navigation example">
+  <div class="d-flex justify-content-center">
+    <ul class="pagination pagination-circle">
+      {% if page_object.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_object.previous_page_number }}">Previous</a>
+        </li>
+      {% endif %}
+
+      {% for i in page_object.paginator.page_range %}
+        {% if i == page_object.number %}
+          <li class="page-item active5" aria-current="page">
+            <a class="page-link">{{ i }}</a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_object.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_object.next_page_number }}">Next</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+
+{% endblock %}

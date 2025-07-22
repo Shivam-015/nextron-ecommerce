@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <h2 class="mb-3 text-danger">❌ Payment Cancelled</h2>
+    <p class="lead">Your payment was not completed. You can try again.</p>
+    <a href="/billing/" class="btn btn-outline-danger mt-4">Try Again</a>
+</div>
+{% endblock %}

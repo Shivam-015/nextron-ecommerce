@@ -1,0 +1,251 @@
+    {% extends 'base.html'%} 
+    
+   {%load static %}
+
+ 
+    {% block content %}
+
+
+     {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+          <strong>{{ message }}</strong>  
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+ <!-- Full-Width Carousel -->
+<div id="promoCarousel" class="carousel slide" data-bs-ride="carousel" style="margin: 0; padding: 0;">
+  
+  <!-- Indicators -->
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+
+  <!-- Slides -->
+  <div class="carousel-inner">
+
+    <!-- Slide 1 -->
+    <div class="carousel-item active">
+      <div class="position-relative" style="height: 90vh; overflow: hidden;">
+        <img src="{% static 'images/bannercarousel.png' %}" class="w-100 h-100 object-fit-cover" alt="Slide 1">
+        <div class="position-absolute top-50 start-0 translate-middle-y text-start ps-5">
+          <span class="badge bg-success text-white mb-3 px-3 py-2 fs-6">FRESH ARRIVAL</span>
+          <h2 class="fw-bold display-4 text-dark">Your one-stop electronics market</h2>
+          <p class="fs-5 text-dark">Explore top gadgets and accessories today.</p>
+          <a href="{%url 'all_products'%}" class="btn btn-danger btn-lg mt-2">Shop Now</a>
+        </div>
+      </div>
+    </div>
+
+  <!-- Slide 2 -->
+<div class="carousel-item">
+  <div class="position-relative" style="height: 90vh; overflow: hidden;">
+    <img src="{% static 'images/bannercarousel3.jpg' %}" class="w-100 h-100 object-fit-cover" style="object-position: right;" alt="Slide 2">
+    <div class="position-absolute top-50 start-0 translate-middle-y text-start ps-5" style="z-index: 10;">
+      <span class="badge bg-success text-white mb-3 px-3 py-2 fs-6">FRESH ARRIVAL</span>
+      <h2 class="fw-bold display-4 text-dark">Smart gadgets at amazing prices</h2>
+      <p class="fs-5 text-dark">Shop the latest electronics from trusted brands.</p>
+      <a href="#" class="btn btn-danger btn-lg mt-2">Shop Now</a>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Slide 3 -->
+    <div class="carousel-item">
+      <div class="position-relative" style="height: 90vh; overflow: hidden;">
+        <img src="{% static 'images/bannercarousel2.png' %}" class="w-100 h-100 object-fit-cover" alt="Slide 3">
+        <div class="position-absolute top-50 start-0 translate-middle-y text-start ps-5">
+          <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">LIMITED DEAL</span>
+          <h2 class="fw-bold display-4 text-white">Best deals on electronics now live</h2>
+          <p class="fs-5 text-white">Don't miss out on exclusive offers!</p>
+          <a href="#" class="btn btn-danger btn-lg mt-2">Shop Now</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <br>
+    <section>
+
+<!-- category -->
+<div class="container my-4">
+  <h4 class="mb-3 text-center">Shop by Category</h4>
+  <hr>
+
+  <div class="d-flex flex-nowrap overflow-auto px-2 gap-4 hide-scrollbar">
+    {% for category in categories %}
+      <div class="text-center" style="min-width: 200px;">
+        <a href="{%url 'all_products' %}?category={{category.id}}" class="text-decoration-none text-dark ">
+          <div class="bg-light rounded p-3 d-flex flex-column align-items-center justify-content-center" style="width: 200px; height: 200px;">
+            {% if category.cat_image %}
+              <img src="{{ category.cat_image.url }}" alt="{{ category.cat_name }}" class="img-fluid category-img" style="max-height: 140px;">
+            {% else %}
+              <span class="text-muted">No Image</span>
+            {% endif %}
+            <p class="fw-bold mt-3 mb-0 text-center small">{{ category.cat_name }}</p>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+
+<!-- Featured Products Section with Bootstrap 5 Carousel -->
+<div class="container">
+  <h4>Featured Products</h4>
+  <hr>
+  <div class="row ms-0 me-0">
+    {% for product in products %}
+    <div class="col-md-3 mb-4">
+      <div class="product-card position-relative rounded border p-3 text-center h-100">
+        
+        <div class="product-img-wrapper position-relative">
+          {% with product.details_image.all|first as first_image %}
+        {% if first_image %}
+          <img src="{{ first_image.image.url }}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="{{ product.product_name }}">
+        {% else %}
+          <img src="{% static 'images/no-image.png' %}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="No Image">
+        {% endif %}
+      {% endwith %}
+          <!-- Hover icons -->
+          <div class="hover-icons position-absolute top-50 start-50 translate-middle d-flex gap-2">
+            <button class="btn btn-outline-danger rounded-circle btn-sm"><i class="fas fa-shopping-cart"></i></button>
+            <button class="btn btn-outline-secondary rounded-circle btn-sm"><i class="fas fa-heart"></i></button>
+            <button class="btn btn-outline-secondary rounded-circle btn-sm"><i class="fas fa-share-alt"></i></button>
+          </div>
+        </div>
+        <!-- Category -->
+        <p class="text-uppercase text-muted small mb-1">{{ product.category.cat_name }}</p>
+
+        <!-- Title -->
+        <h6 class="fw-bold text-truncate">{{ product.product_name }}</h6>
+
+        <!-- Price -->
+        <p class="fw-bold text-dark">₹ {{ product.original_price }}</p>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</section>
+
+   <!--deals of the day-->
+ 
+<div class="deals-section">
+  <div class="container py-5">
+    <h2 class="text-center mb-4">Deals of the Day</h2>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" id="deals">
+      {% for product in products %}
+  <div class="col mb-4">
+    <div class="card h-100">
+
+      {% with product.details_image.all|first as first_image %}
+        {% if first_image %}
+          <img src="{{ first_image.image.url }}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="{{ product.product_name }}">
+        {% else %}
+          <img src="{% static 'images/no-image.png' %}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="No Image">
+        {% endif %}
+      {% endwith %}
+
+      <div class="card-body text-center">
+        <h6 class="card-title">{{ product.product_name|truncatewords:7 }}</h6>
+        <p class="h5 text-danger">₹ {{ product.discount_price }}</p>
+        <button class="btn btn-sm btn-primary">Grab Deal</button>
+      </div>
+
+    </div>
+  </div>
+{% endfor %}
+
+    </div>
+  </div>
+</div>
+  
+<!-- new arrivals -->
+ 
+  <div class="container my-5">
+  <h4 class="mb-4 fw-bold">New arrivals</h4>
+  <div class="row g-4">
+    
+    <!-- Left Banner -->
+    <div class="col-lg-4">
+      <div class="rounded overflow-hidden shadow-sm h-100">
+
+        
+        <img src="{% static 'images/green-headphone.jpg' %}" alt="MacBook" class="img-fluid w-100 h-60" style="object-fit: cover;">
+        
+      </div>
+    </div>
+
+    <!-- Right Products -->
+    <div class="col-lg-8">
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for product in products %}
+        <div class="col">
+          <div class="d-flex gap-3 align-items-center">
+            <img src="{{ product.details_image.first.image.url }}" alt="{{ product.product_name }}" class="img-fluid" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
+            <div>
+              <p class="mb-1 fw-semibold small text-dark">{{ product.product_name|truncatechars:30 }}</p>
+
+              <!-- Ratings stars (optional static for now) -->
+              <div class="mb-1">
+                <i class="fa fa-star text-warning"></i>
+                <i class="fa fa-star text-warning"></i>
+                <i class="fa fa-star text-warning"></i>
+                <i class="fa fa-star text-warning"></i>
+                <i class="fa fa-star-half-alt text-warning"></i>
+                <span class="text-muted small">34</span>
+              </div>
+
+              <!-- Pricing -->
+              <div class="fw-bold text-dark">
+                ₹{{ product.price }}
+                {% if product.original_price %}
+                <del class="text-muted fw-normal small">₹{{ product.original_price }}</del>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+ 
+
+
+   <!--visit our store-->
+  <div class="map">
+  <div class="container py-4">
+    <h2 class="text-center mb-4">Visit Our Store</h2>
+    
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d38731.21879607288!2d75.82302337502593!3d30.903765076633903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a837462345a7d%3A0x681102348ec60610!2sLudhiana%2C%20Punjab!5e0!3m2!1sen!2sin!4v1751301876091!5m2!1sen!2sin" width="100%" height="200" style="border:0; border-radius: 20px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+   
+  </div>
+</div>
+{% endblock%}
+
+
+
+
+
+
+
+
+
+
+
