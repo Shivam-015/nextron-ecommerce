@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-bih5p!sw90hayvq&ntxaqvfb)ir=25k=+2y&au=g^*j+i1ha41'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -163,9 +163,9 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '32214141851-mhmcei9o8v32h62h4g92mpi7tj2vhhae.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
 LOGIN_REDIRECT_URL = '/google-login-success/'
 LOGOUT_REDIRECT_URL = '/login/'
