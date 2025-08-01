@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+    <h4 class="mb-4">Track Order #{{ order.id }}</h4>
+
+    <!-- Progress Bar Container -->
+    <div class="position-relative mb-5" style="height: 70px;">
+        <div class="progress" style="height: 6px; background-color: #e9ecef;">
+            <div class="progress-bar bg-primary" style="width: calc(({{ current_index }} / {{ steps|length|add:'-1' }}) * 100%)">
+            </div>
+        </div>
+
+        {% for step in steps %}
+        <div class="position-absolute text-center" 
+             style="left: calc({{ forloop.counter0 }} / {{ steps|length|add:'-1' }} * 100%);
+                    transform: translateX(-50%);
+                    top: -25px;">
+            <div>
+                <small class="{% if forloop.counter0 <= current_index %}text-primary fw-bold{% else %}text-muted{% endif %}">
+                    {{ step|capfirst }}
+                </small>
+            </div>
+            <div class="rounded-circle border" 
+                 style="width: 16px; height: 16px;
+                        background-color: {% if forloop.counter0 <= current_index %}#0d6efd{% else %}#ccc{% endif %};
+                        margin: auto; border-width: 2px;">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Order Details -->
+    <div class="bg-light p-4 rounded shadow-sm">
+        <p><strong>Status:</strong> {{ order.status }}</p>
+        <p><strong>Payment:</strong> {{ order.payment_method }}</p>
+        <p><strong>Total:</strong> ₹{{ order.total_price }}</p>
+        <p><strong>Billing Address:</strong> {{ order.billing_address }}</p>
+    </div>
+</div>
+{% endblock %}

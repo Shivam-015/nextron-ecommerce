@@ -1,113 +1,160 @@
- {% extends 'base.html'%} 
-    
-   {%load static %}
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5 mb-5">
 
-    {% block content %}
-<div class="container py-5">
-     <form method="post">
-            {% csrf_token%}
+    <h2 class="text-center fw-semibold display-5 mb-5">
+        BILLING DETAILS
+    </h2>
     <div class="row">
-       
-         
-        <div class="col-lg-8 mb-4">
-            <h4 class="mb-4 fw-bold">Billing Details</h4>
-            
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">First Name *</label>
-                    <input type="text" name="shipping_first_name" class="form-control" placeholder="John">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Last Name *</label>
-                    <input type="text" name="shipping_last_name" class="form-control" placeholder="Doe">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Phone Number *</label>
-                    <input type="text" name="shipping_phone_no" class="form-control" placeholder="+91 XXXXX XXXXX">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Email Address *</label>
-                    <input type="email" name="shipping_email" class="form-control" placeholder="example@gmail.com">
-                </div>
-                <div class="col-12">
-                    <label class="form-label">Address *</label>
-                    <input type="text" name="shipping_address" class="form-control" placeholder="123 Street Name, City, State">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Country *</label>
-                    <input type="text" name="shipping_country" class="form-control" placeholder="India">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">State *</label>
-                    <input type="text" name="shipping_state" class="form-control" placeholder="Uttar Pradesh">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">City *</label>
-                    <input type="text" name="shipping_city" class="form-control" placeholder="Kanpur">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">ZIP Code *</label>
-                    <input type="text" name="shipping_zipcode" class="form-control" placeholder="208001">
-                </div>
-                <div class="col-12">
-                    <label class="form-label">Order Notes</label>
-                    <textarea class="form-control" name="shipping_notes" placeholder="Enter any order notes here..." rows="3"></textarea>
-                </div>
-            </div>
-            
-        </div>
+        <div class="col-md-7">
+            <form method="post" id="billing-form">
+                {% csrf_token %}
 
-        
-         
-    <div class="col-lg-4">
-                <div class="summary-card p-4 shadow-sm rounded-3 bg-white">
-                    <h5 class="mb-4">Order Summary</h5>
-
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="text-muted">Subtotal</span>
-                        <span>₹ {{ total }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="text-muted">Discount</span>
-                        <span class="text-success"> ₹0</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="text-muted">Shipping</span>
-                        {% if free_shipping %}
-                            <span class="text-success">Free</span>
-                            <span class="text-decoration-line-through text-muted ms-2">₹99</span>
-                        {% else %}
-                            <span class="text-danger">₹99</span>
-                        {% endif %}
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-4">
-                        <span class="fw-bold">Total</span>
-                        <span class="fw-bold">₹ {{ total }}</span>
-                    </div>
-
-                    
-                    <div class="mb-4">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Promo code">
-                            <button class="btn btn-outline-secondary" type="button">Apply</button>
+                {% if saved_address %}
+                <h5>Select a Saved Address</h5>
+                <div class="row">
+                    {% for addr in saved_address %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-1 shadow" style="border-radius: 16px;">
+                            <div class="card-body">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="selected_address"
+                                        id="addr{{ addr.id }}" value="{{ addr.id }}"
+                                        {% if forloop.first %}required{% endif %}
+                                        onclick="toggleNewAddress(false)">
+                                    <label class="form-check-label" for="addr{{ addr.id }}">
+                                        <strong>Name: </strong>{{ addr.full_name }}<br>
+                                        <strong>Address Line: </strong>{{ addr.address }}<br>
+                                        <strong>City: </strong>{{ addr.city }}<br>
+                                        <strong>State: </strong>{{ addr.state }}<br>
+                                        
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-                    <button type="submit" class="btn btn-primary w-100 mb-3">
-                        
-                    </button>
+                <!-- New Address Radio -->
+                <div class="col-md-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="selected_address"
+                                    id="newAddress" value=""
+                                    onclick="toggleNewAddress(true)">
+                                <label class="form-check-label" for="newAddress">
+                                    <strong>Use a New Address</strong>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="d-flex justify-content-center gap-2">
-                        <i class="bi bi-shield-check text-success"></i>
-                        <small class="text-muted">Secure checkout</small>
+                <!-- New Address Form -->
+                <div id="new-address-form" style="display: none;" class="mt-3">
+                    <h5>Enter New Address</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Full Name</label>
+                            <input type="text" name="full_name" class="form-control" disabled required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Email</label>
+                            <input type="email" name="email_shipping" class="form-control" disabled required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Phone</label>
+                            <input type="text" name="phone" class="form-control" disabled required>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label>Address</label>
+                            <input type="text" name="address" class="form-control" disabled required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>Country</label>
+                            <input type="text" name="country" class="form-control" disabled required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>City</label>
+                            <input type="text" name="city" class="form-control" disabled required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>State</label>
+                            <input type="text" name="state" class="form-control" disabled required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Zip Code</label>
+                            <input type="text" name="zip_code" class="form-control" disabled required>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label>Order Notes</label>
+                            <textarea name="order_notes" class="form-control" rows="3" disabled></textarea>
+                        </div>
+                    </div>
+                </div>
+                <p id="error-msg" class="text-danger fw-semibold mb-3" style="display:none;"></p>
+
+                <h5>Select Payment Method:</h5>
+                <label><input type="radio" name="payment_method" value="COD" checked> Cash on Delivery</label><br>
+                <label><input type="radio" name="payment_method" value="CARD"> Pay Now (Card)</label><br>
+
+                <button type="submit" class="btn btn-dark mt-4">Proceed to Payment</button>
+            </form>
+
+            <!-- JS for toggling new address -->
+            <script>
+                function toggleNewAddress(show) {
+                    const formFields = document.querySelectorAll('#new-address-form input, #new-address-form textarea');
+                    document.getElementById('new-address-form').style.display = show ? 'block' : 'none';
+                    formFields.forEach(field => {
+                        field.disabled = !show;
+                        if (show) {
+                            field.setAttribute('required', 'required');
+                        } else {
+                            field.removeAttribute('required');
+                        }
+                    });
+                }
+
+                document.getElementById('billing-form').addEventListener('submit', function (e) {
+                    const selected = document.querySelector('input[name="selected_address"]:checked');
+                    if (!selected) {
+                        document.getElementById('error-msg').style.display = 'block';
+                        document.getElementById('error-msg').innerText = 'Please select an address or enter a new one.';
+                        e.preventDefault();
+                    } else {
+                        document.getElementById('error-msg').style.display = 'none';
+                    }
+
+                });
+            </script>
+
+        </div>
+
+        <!-- Right: Order Summary -->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    {% for item in items %}
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{{ item.product.product_name }} </span>
+                        <span>₹{{ item.total_price }}</span>
+                    </div>
+                    {% endfor %}
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong>Total</strong>
+                        <strong>₹{{ total }}</strong>
                     </div>
                 </div>
             </div>
-           
+        </div>
     </div>
-    </form>
 </div>
 {% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'javascript/script.js' %}"></script>

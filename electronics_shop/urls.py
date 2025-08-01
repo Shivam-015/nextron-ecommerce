@@ -46,13 +46,15 @@ from django.contrib import admin
 from django.urls import path,include 
 from django.conf.urls.static import static
 from django.conf import settings
-
+from accounts import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('' , include('products.urls')),
-    path('accounts/' , include('accounts.urls'))
+    path('accounts/' , include('accounts.urls')),
      #app ka url 
-   
+    path('auth/', include('social_django.urls', namespace='social')),
+    path('google-login-success/', views.google_login_success, name='google_login_success'),
+
 
 ] + static(settings.MEDIA_URL, document_root =settings.MEDIA_ROOT)

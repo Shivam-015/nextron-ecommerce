@@ -1,31 +1,46 @@
 # products/views.py
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Product,Contact,CartItem,ProductDetails 
+from .models import Product,Contact,CartItem,Wishlist 
 from django.core.paginator import Paginator
 from django.db.models import Q
 from category.models import Category
-
+from django.http import JsonResponse
 
 def home(request):
     products = Product.objects.filter(is_available=True).prefetch_related('details_image')
     categories = Category.objects.all()
 
-    return render(request, 'ecommerce/home.html', {'products': products, 'categories': categories})
+    deals = []
+    for product in products:
+        discount = product.discount_percent()
+        if discount > 15:
+            deals.append(product)
+    featured = products.order_by('-reviews')[:8]
+    new_arrivals = products.order_by('-created_date')[:6]
+    return render(request, 'ecommerce/home.html', 
+                    {'products': products, 
+                    'deals' : deals , 
+                    'categories': categories ,
+                    'featured' : featured ,
+                    'new_arrivals' : new_arrivals ,
+                    })
 
   
 
 def all_products(request):
 
-    query = request.GET.get('q' , '' ) 
-    products = Product.objects.all() 
-    if query:
-        products = Product.objects.filter( Q(product_name__icontains = query) | Q(category__category_name__icontains = query) )
-    category_id = request.GET.get('category')
-    if category_id:
-        products= products.filter(category_id=category_id)
+    query = request.GET.get('z' , '' )   
+    category_id = request.GET.get("category")
+    products = Product.objects.all()
 
-        
-    
+    if query:
+        products = products.filter(
+            Q(product_name__icontains=query) | 
+            Q(category__cat_name__icontains=query)
+        )
+
+    if category_id:
+        products = products.filter(category_id=category_id)
     categories = Category.objects.all()
 
     category = request.GET.getlist('category')  
@@ -55,9 +70,37 @@ def all_products(request):
             products = products.filter(is_available = False)
 
     products = products.prefetch_related('details_image')
-    paginator = Paginator(products , 2)    # 10 products per page
+
+    sort = request.GET.get('sort')
+    view = request.GET.get('view' , 'grid')
+    selected_sort = "Popularity"
+
+    if sort== 'price_low':
+        products = products.order_by('discount_price')
+        selected_sort = "Price Low to High"
+    elif sort== 'price_high':
+        products = products.order_by('-discount_price')
+        selected_sort = "Price High to Low"
+    elif sort== 'newest':
+        products = products.order_by('-created_date')
+        selected_sort = 'Newest First'
+    
+    is_deals = request.GET.get('deals') == 'true'
+    if is_deals:
+        filtered_deals = []
+        for product in products:
+            if product.discount_percent() > 15:
+                filtered_deals.append(product)
+        products = filtered_deals
+        heading = "Deals of the Day"
+    else:
+        heading = "All Products"
+
+    paginator = Paginator(products , 6)    # 10 products per page
     page_number = request.GET.get('page')   # current page number
     page_object = paginator.get_page(page_number)   # display 10 products on curret page
+
+      
 
     context = {
         'page_object': page_object , 
@@ -66,6 +109,10 @@ def all_products(request):
         'selected_min_price' : min_price or 0 ,
         'selected_max_price' : max_price or 10000000 ,
         'selected_availability' : availability,
+        'selected_sort' : selected_sort ,
+        'view' : view ,
+        'request' : request , 
+        'heading' : heading,
         }
 
     return render(request, 'products/all_products.html', context)
@@ -134,7 +181,7 @@ def cart(request):
 
 def add_to_cart(request , product_id):
     register_id = request.session.get('register_id')
-    product = get_object_or_404(Product, id= product_id)
+    product = get_object_or_404(Product, id= product_id) # iss line k
 
     # Use register_id, not request.user
     cart, created = CartItem.objects.get_or_create(user_id=register_id, product=product)
@@ -165,11 +212,38 @@ def decrease(request , item_id):
         item.save()
     return redirect('cart')    
 
-#profile
-def profile(request):
-    return render(request,'accounts/profile.html')
+#wishlist
+def wishlist(request):
+    wishlist_id = request.session.get('register_id')   #current user login session
+
+    if not wishlist_id:
+        return redirect('login') 
+    
+    items = Wishlist.objects.filter(user_id = wishlist_id)  
+
+    return render(request,'accounts/wishlist.html' , {'items':items })
+   
+
+def add_to_wishlist(request,product_id):
+    wishlist_id =request.session.get('register_id')
+    product = get_object_or_404(Product , id = product_id)
+
+    wishlist = Wishlist.objects.filter(user_id = wishlist_id,product = product).first()
+
+    if not wishlist:
+        Wishlist.objects.create(
+            user_id = wishlist_id,
+            product = product)
+        return JsonResponse({'status' : 'added'})
+    else:
+        wishlist.delete()
+        return JsonResponse({'status' : 'deleted'})
+
+def delete_from_wishlist(request , product_id):
+    user_id = request.session.get('register_id')
+    wishlist = get_object_or_404(Wishlist, product_id = product_id , user_id = user_id)
+    wishlist.delete()
+    return redirect('wishlist')
+   
 
 
-
-
- 

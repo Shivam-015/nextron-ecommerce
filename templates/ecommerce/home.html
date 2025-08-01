@@ -7,72 +7,219 @@
 
 
      {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
-          <strong>{{ message }}</strong>  
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-        {% endif %}
+  <div id="floating-message" class="position-fixed top-25 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow text-center small" 
+       style="z-index: 1055; background-color: white; min-width: 300px;">
+    {% for message in messages %}
+      <span class="{% if message.tags == 'success' %}text-success
+                   {% elif message.tags == 'error' or message.tags == 'danger' %}text-danger
+                   {% elif message.tags == 'warning' %}text-warning
+                   {% else %}text-secondary{% endif %}">
+        {{ message }}
+      </span>
+    {% endfor %}
+  </div>
+{% endif %}
+
 
  <!-- Full-Width Carousel -->
 <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel" style="margin: 0; padding: 0;">
   
   <!-- Indicators -->
   <div class="carousel-indicators">
-    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" ></button>
     <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+   
+
   </div>
 
   <!-- Slides -->
-  <div class="carousel-inner">
+  <div class="carousel-inner" style="scroll-behavior: smooth;"> 
 
     <!-- Slide 1 -->
     <div class="carousel-item active">
-      <div class="position-relative" style="height: 90vh; overflow: hidden;">
-        <img src="{% static 'images/bannercarousel.png' %}" class="w-100 h-100 object-fit-cover" alt="Slide 1">
-        <div class="position-absolute top-50 start-0 translate-middle-y text-start ps-5">
-          <span class="badge bg-success text-white mb-3 px-3 py-2 fs-6">FRESH ARRIVAL</span>
-          <h2 class="fw-bold display-4 text-dark">Your one-stop electronics market</h2>
-          <p class="fs-5 text-dark">Explore top gadgets and accessories today.</p>
-          <a href="{%url 'all_products'%}" class="btn btn-danger btn-lg mt-2">Shop Now</a>
-        </div>
-      </div>
-    </div>
-
-  <!-- Slide 2 -->
-<div class="carousel-item">
   <div class="position-relative" style="height: 90vh; overflow: hidden;">
-    <img src="{% static 'images/bannercarousel3.jpg' %}" class="w-100 h-100 object-fit-cover" style="object-position: right;" alt="Slide 2">
-    <div class="position-absolute top-50 start-0 translate-middle-y text-start ps-5" style="z-index: 10;">
-      <span class="badge bg-success text-white mb-3 px-3 py-2 fs-6">FRESH ARRIVAL</span>
-      <h2 class="fw-bold display-4 text-dark">Smart gadgets at amazing prices</h2>
-      <p class="fs-5 text-dark">Shop the latest electronics from trusted brands.</p>
-      <a href="#" class="btn btn-danger btn-lg mt-2">Shop Now</a>
-    </div>
-  </div>
-</div>
 
+    <!-- Headphone Image as background -->
+    <img src="{% static 'images/bannercarousel.png' %}" 
+         class="w-100 h-100 object-fit-cover position-absolute top-0 start-0 z-0" 
+         style="object-position: right;" 
+         alt="Slide 1">
 
-    <!-- Slide 3 -->
-    <div class="carousel-item">
-      <div class="position-relative" style="height: 90vh; overflow: hidden;">
-        <img src="{% static 'images/bannercarousel2.png' %}" class="w-100 h-100 object-fit-cover" alt="Slide 3">
-        <div class="position-absolute top-50 start-0 translate-middle-y text-start ps-5">
-          <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6">LIMITED DEAL</span>
-          <h2 class="fw-bold display-4 text-white">Best deals on electronics now live</h2>
-          <p class="fs-5 text-white">Don't miss out on exclusive offers!</p>
-          <a href="#" class="btn btn-danger btn-lg mt-2">Shop Now</a>
-        </div>
+    
+
+    <!-- Text Section -->
+    <div class="position-absolute top-50 start-0 translate-middle-y text-start ps-5 z-1">
+      <div class="exclusive-text">Exclusive</div>
+
+      <div class="headline-text">
+        <span class="head">HEAD</span><span class="phone">PHONE</span>
       </div>
+
+      <p class="subtext-text mb-4">
+        Dive into immersive sound with cutting-edge wireless headphones — delivering clarity, power, and style in every beat.
+      </p>
+
+      <a href="{% url 'all_products' %}" class="btn btn-danger btn-lg btn-shop">Shop Now</a>
     </div>
+
+
+    <!-- Custom Styles -->
+    <style>
+      .exclusive-text {
+        font-family: 'Great Vibes', cursive;
+        font-size: 4.1rem;
+        color: #333;
+      }
+
+      .headline-text {
+        font-family: 'Poppins', sans-serif;
+        font-size: 5.5rem;
+        font-weight: 900;
+        letter-spacing: 2px;
+        margin-top: -35px;
+      }
+
+      .headline-text .head {
+        color: transparent;
+        -webkit-text-stroke: 4px #b38d6e;
+      }
+
+      .headline-text .phone {
+        color: #b38d6e;
+      }
+
+      .subtext-text {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.3rem;
+        color: #444;
+        max-width: 550px;
+        line-height: 1.6;
+      }
+
+      .btn-shop {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.1rem;
+        padding: 12px 28px;
+        border-radius: 50px;
+        z-index: 3;
+      }
+
+      @media (max-width: 768px) {
+        .exclusive-text {
+          font-size: 2.2rem;
+        }
+
+        .headline-text {
+          font-size: 3rem;
+        }
+
+        .subtext-text {
+          font-size: 1rem;
+        }
+      }
+    </style>
+
 
   </div>
 </div>
 
-    <br>
-    <section>
+
+    <!-- Slide 2 -->
+   <div class="carousel-item">
+  <div class="position-relative" style="height: 90vh; overflow: hidden;">
+    <img src="{% static 'images/herosection2.png' %}" class="w-100 h-100 object-fit-cover" style="object-position: center 54%;" alt="Slide 1">
+
+    <div class="position-absolute top-50 end-0 translate-middle-y text-end pe-5">
+      <!-- Top Badge -->
+      <span class="fw-bold immersive-badge">
+  IMMERSIVE EXPERIENCE
+      </span>
+
+<style>
+  .immersive-badge {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 25px;
+    font-weight: 800;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(to right, #b93c1d, #ed9c3f); /* warm contrast */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+</style>
+
+      <!-- Headline -->
+      <h2 class="fw-bold display-3" style="
+        font-family: 'Orbitron', sans-serif;
+        background: linear-gradient(to right, #5f2c82, #49a09d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-transform: uppercase;
+        letter-spacing: 1px;">
+        STEP INTO THE <br> FUTURE OF GAMING
+      </h2>
+
+      <!-- Description -->
+      <p class="fs-4 mt-3">
+        Discover cutting-edge VR gear for ultimate thrill and realism.
+      </p>
+
+      <!-- Button -->
+      <a href="{% url 'all_products' %}" class="btn btn-lg mt-3" style="
+        background: linear-gradient(to right, #007cf0, #00dfd8);
+        color: white;
+        font-weight: bold;
+        padding: 0.5rem 1.5rem;
+        border-radius: 15px;">
+        Explore Now
+      </a>
+    </div>
+  </div>
+</div>
+
+  <!-- Slide 3 -->
+<div class="carousel-item">
+  <div class="position-relative" style="height: 90vh; overflow: hidden; font-family: 'Poppins', sans-serif;">
+    <img src="{% static 'images/home-section2.png' %}" class="w-100 h-100 object-fit-cover" style="object-position: center 65%;" alt="Smart Watch Banner">
+    
+    <div class="position-absolute top-50 start-0 translate-middle-y text-start ps-5" style="max-width: 500px;">
+      <!-- Stylish font just for heading -->
+      <h1 class="mb-1" style="font-family: 'Orbitron', sans-serif; font-size: 3.2rem; color: #222;">EXPERIENCE FUTURE</h1>
+      
+      <h4 class="text-dark fw-light mb-2" style="letter-spacing: 1px;">SMARTWEAR REDEFINED</h4>
+      <h5 class="fw-semibold text-dark mb-3" style="font-size: 1.5rem;">UNLOCK THE POWER ON YOUR WRIST</h5>
+      
+      <p class="text-muted mb-4" style="font-size: 1rem;">
+        Track. Connect. Elevate. Discover the perfect blend of style and innovation in our latest smartwatches.
+      </p>
+
+      <a href="#" class="btn px-4 py-2 mt-2" style="background: linear-gradient(to right, #a18cd1, #fbc2eb); border: none; border-radius: 25px; color: white; font-weight: 600;">
+        EXPLORE NOW
+      </a>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+  <!-- carousel control -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+
+   
 
 <!-- category -->
 <div class="container my-4">
@@ -81,140 +228,314 @@
 
   <div class="d-flex flex-nowrap overflow-auto px-2 gap-4 hide-scrollbar">
     {% for category in categories %}
-      <div class="text-center" style="min-width: 200px;">
+      <div style="min-width: 160px;">
         <a href="{%url 'all_products' %}?category={{category.id}}" class="text-decoration-none text-dark ">
-          <div class="bg-light rounded p-3 d-flex flex-column align-items-center justify-content-center" style="width: 200px; height: 200px;">
+          <div class="rounded-circle d-flex flex-column align-items-center justify-content-center" style="width: 150px; height: 150px; background-color: rgb(243, 240, 240);">
             {% if category.cat_image %}
-              <img src="{{ category.cat_image.url }}" alt="{{ category.cat_name }}" class="img-fluid category-img" style="max-height: 140px;">
+              <img src="{{ category.cat_image.url }}" alt="{{ category.cat_name }}" class="img-fluid category-img" style="max-height: 122px;">
             {% else %}
               <span class="text-muted">No Image</span>
             {% endif %}
-            <p class="fw-bold mt-3 mb-0 text-center small">{{ category.cat_name }}</p>
+            
           </div>
         </a>
+        <p class="fw-bold text-center small">{{ category.cat_name }}</p>
       </div>
+      
     {% endfor %}
   </div>
 </div>
 
 
-
-
-<!-- Featured Products Section with Bootstrap 5 Carousel -->
+<!-- Featured Products -->
 <div class="container">
-  <h4>Featured Products</h4>
+  <h4 class="fw-bold mb-3">Featured Products</h4>
   <hr>
   <div class="row ms-0 me-0">
-    {% for product in products %}
-    <div class="col-md-3 mb-4">
-      <div class="product-card position-relative rounded border p-3 text-center h-100">
-        
-        <div class="product-img-wrapper position-relative">
+    <!-- Scrollable Products Right -->
+    <div class="col-lg-12 position-relative overflow-auto hide-scrollbar">
+      <!-- Scrollable wrapper -->
+      <div class="position-relative">
+        <button id="scrollLeftBtn"
+          class="btn position-absolute top-50 start-0 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
+          style="z-index: 10; width: 36px; height: 36px;">
+          <i class="bi bi-chevron-left fs-5 m-0 p-0"></i>
+        </button>
+
+        <!-- Products Scrollable -->
+        <div id="productScroll" class="d-flex overflow-auto gap-3 px-2" style="scroll-behavior: smooth;">
+    {% for product in featured %}
+    <div class="col-md-3 col-sm-6 mb-4">
+      <div class="card border-0 shadow position-relative h-100 rounded-4 overflow-hidden product-card hover-shadow-lg">
+
+        <!-- Product Image -->
+        <div class="position-relative bg-white text-center p-2" style="height: 220px;">
+          <!-- Wishlist Icon (on image hover) -->
+          <button class="btn position-absolute top-0 end-0 m-2 rounded-circle wishlist-btn shadow-sm"
+                data-product-id="{{ product.id }}"
+                onclick="toggleWishlist(this)"
+                title="Toggle wishlist">
+        <i class="{% if product.id in wishlist_ids %}fas{% else %}far{% endif %} fa-heart text-danger"></i>
+      </button>
+
+          
           {% with product.details_image.all|first as first_image %}
-        {% if first_image %}
-          <img src="{{ first_image.image.url }}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="{{ product.product_name }}">
-        {% else %}
-          <img src="{% static 'images/no-image.png' %}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="No Image">
-        {% endif %}
-      {% endwith %}
-          <!-- Hover icons -->
-          <div class="hover-icons position-absolute top-50 start-50 translate-middle d-flex gap-2">
-            <button class="btn btn-outline-danger rounded-circle btn-sm"><i class="fas fa-shopping-cart"></i></button>
-            <button class="btn btn-outline-secondary rounded-circle btn-sm"><i class="fas fa-heart"></i></button>
-            <button class="btn btn-outline-secondary rounded-circle btn-sm"><i class="fas fa-share-alt"></i></button>
-          </div>
+            {% if first_image %}
+              <img src="{{ first_image.image.url }}" class="h-100 p-1 w-100 rounded-4" style="object-fit: contain; background-color: #faf6e9;" alt="{{ product.product_name }}">
+              
+            {% else %}
+              <img src="{% static 'images/no-image.png' %}" class="h-100 p-3 " style="object-fit: contain;" alt="No Image">
+            {% endif %}
+          {% endwith %}
         </div>
-        <!-- Category -->
-        <p class="text-uppercase text-muted small mb-1">{{ product.category.cat_name }}</p>
+        
 
-        <!-- Title -->
-        <h6 class="fw-bold text-truncate">{{ product.product_name }}</h6>
+        <!-- Card Body -->
+        <div class="card-body text-center">
 
-        <!-- Price -->
-        <p class="fw-bold text-dark">₹ {{ product.original_price }}</p>
+          <!-- Title -->
+          <h6 class="fw-semibold text-truncate mb-2">{{ product.product_name }}</h6>
 
+          <!-- Prices -->
+          <div class="mb-3">
+            <span class="fw-bold fs-5 text-dark">₹ {{ product.discount_price }}</span>
+            {% if product.original_price and product.discount_price != product.original_price %}
+              <span class="text-muted text-decoration-line-through ms-2">₹ {{ product.original_price }}</span>
+            {% endif %}
+          </div>
+
+          <!-- Buttons -->
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-dark rounded-pill w-75" >Add to cart</a>
+            
+          </div>
+
+        </div>
       </div>
     </div>
     {% endfor %}
-  </div>
-</div>
-</section>
+ </div>
+        <button id="scrollRightBtn"
+          class="btn position-absolute top-50 end-0 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
+          style="z-index: 10; width: 36px; height: 36px;">
+          <i class="bi bi-chevron-right fs-5 m-0 p-0"></i>
+        </button>
 
-   <!--deals of the day-->
- 
-<div class="deals-section">
-  <div class="container py-5">
-    <h2 class="text-center mb-4">Deals of the Day</h2>
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" id="deals">
-      {% for product in products %}
-  <div class="col mb-4">
-    <div class="card h-100">
-
-      {% with product.details_image.all|first as first_image %}
-        {% if first_image %}
-          <img src="{{ first_image.image.url }}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="{{ product.product_name }}">
-        {% else %}
-          <img src="{% static 'images/no-image.png' %}" class="card-img-top" style="height: 180px; object-fit: contain;" alt="No Image">
-        {% endif %}
-      {% endwith %}
-
-      <div class="card-body text-center">
-        <h6 class="card-title">{{ product.product_name|truncatewords:7 }}</h6>
-        <p class="h5 text-danger">₹ {{ product.discount_price }}</p>
-        <button class="btn btn-sm btn-primary">Grab Deal</button>
       </div>
-
     </div>
+    
   </div>
-{% endfor %}
+</div>
 
+<!-- Banner Section Above Deals of the Day -->
+<div class="mt-4">
+ <div class="banner-wrapper">
+<img src="{% static 'images/sale.png' %}" alt="Deals Banner" class="img-fluid custom-banner-img">
+ </div>
+</div>
+
+
+<!-- deals of the day -->
+<div class="container py-5 px-4 mt-4" style='background-image: url("{% static "images/deals.avif" %}"); background-size: cover; background-repeat: no-repeat; background-position: center;'>
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-semibold mb-1">Deals of the Day</h4>
+    <a href="{% url 'all_products' %}?deals=true" class="btn-view-all">VIEW ALL PRODUCTS</a>
+  </div>
+  <hr>
+
+  <div class="row">
+    <!-- Banner Left -->
+     <style>
+  .position-banner {
+    position: relative;
+    height: 410px;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+
+  .position-banner img.bg-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+
+  .floating-headphone {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 150px;
+    animation: floatUpDown 2.5s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  @keyframes floatUpDown {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-20px);
+    }
+  }
+</style>
+
+    <div class="col-lg-3 mb-4">
+      <img src="{% static 'images/banner.jpg' %}" class="img-fluid rounded shadow"  style="height: 410px; object-fit: cover;" alt="Deals Banner">
+    </div>
+
+    <!-- Scrollable Products Right -->
+    <div class="col-lg-9 position-relative overflow-auto hide-scrollbar">
+      <!-- Scrollable wrapper -->
+      <div class="position-relative">
+        <button id="scrollLeftBtn"
+          class="btn position-absolute top-50 start-0 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
+          style="z-index: 10; width: 36px; height: 36px;">
+          <i class="bi bi-chevron-left fs-5 m-0 p-0"></i>
+        </button>
+
+        <!-- Products Scrollable -->
+        <div id="productScroll" class="d-flex overflow-auto gap-3 px-2" style="scroll-behavior: smooth;">
+          {% for product in deals %}
+          <div class="card product-card border-0 shadow-sm p-3 flex-shrink-0"
+               style="width: 300px; height: 100%; scroll-snap-align: start;">
+            <!-- Image -->
+            {% with product.details_image.all|first as first_image %}
+              {% if first_image %}
+                <img src="{{ first_image.image.url }}" class="card-img-top bg-light rounded-4" style="height: 180px; object-fit: contain;" alt="{{ product.product_name }}">
+              {% else %}
+                <img src="{% static 'images/no-image.png' %}" class="card-img-top p-3" style="height: 180px; object-fit: contain;" alt="No Image">
+              {% endif %}
+            {% endwith %}
+
+            <!-- Hover Icons -->
+            <div class="position-absolute top-0 end-0 m-2 d-flex flex-column gap-2 opacity-0 hover-icons transition">
+              <button class="btn btn-sm btn-light rounded-circle shadow-sm"><i class="fas fa-heart"></i></button>
+              <button class="btn btn-sm btn-light rounded-circle shadow-sm"><i class="fas fa-sync-alt"></i></button>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
+              <div>
+                <div class="mb-1">
+                {% with rating=product.reviews %}
+                  {% for i in "12345" %}
+                    {% if rating >= forloop.counter %}
+                      <i class="fa fa-star text-warning"></i>
+                    {% elif rating >= forloop.counter0|add:"0.5" %}
+                      <i class="fa fa-star-half-alt text-warning"></i>
+                    {% else %}
+                      <i class="fa fa-star text-secondary"></i>
+                    {% endif %}
+                  {% endfor %}
+                {% endwith %}
+              </div>
+                <a href="#" class="text-decoration-none fw-semibold text-dark d-block mb-2">
+                  {{ product.product_name|truncatewords:5 }}
+                </a>
+              </div>
+
+              <div>
+                <div class="mb-2 d-flex align-items-center justify-content-between flex-wrap">
+                  <div>
+                    <span class="fw-bold fs-5 text-dark">₹{{ product.discount_price }}</span>
+                    <span class="text-muted text-decoration-line-through">₹{{ product.original_price }}</span>
+                  </div>
+                 <a href="{% url 'add_to_cart' product.id %}" class="btn btn-outline-dark rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+  <i class="bi bi-cart"></i>
+</a>
+
+
+                </div>
+
+                {% widthratio product.stock 200 100 as percent_width %}
+                <div class="progress mb-1" style="height: 6px;">
+                  <div class="progress-bar bg-danger" style="width: {{ percent_width }}%;"></div>
+                </div>
+                <p class="text-muted small mb-0">Available: {{ product.stock }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <button id="scrollRightBtn"
+          class="btn position-absolute top-50 end-0 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
+          style="z-index: 10; width: 36px; height: 36px;">
+          <i class="bi bi-chevron-right fs-5 m-0 p-0"></i>
+        </button>
+
+      </div>
     </div>
   </div>
 </div>
+
   
 <!-- new arrivals -->
- 
-  <div class="container my-5">
+<div class="container my-5 ">
+  <div style="min-height: 80vh;">
+     
+  
   <h4 class="mb-4 fw-bold">New arrivals</h4>
   <div class="row g-4">
     
-    <!-- Left Banner -->
-    <div class="col-lg-4">
-      <div class="rounded overflow-hidden shadow-sm h-100">
+    <div class="col-lg-4 ">
+<div class="position-banner w-100 h-100">
 
-        
-        <img src="{% static 'images/green-headphone.jpg' %}" alt="MacBook" class="img-fluid w-100 h-60" style="object-fit: cover;">
-        
-      </div>
+  <div class="position-absolute top-50 start-0 translate-middle-y ps-5">
+    <h1 class=" headphone-text">
+       Gaming Headphones
+    </h1>
+  </div>
+
+  <img src="{% static 'images/deal-headphone.png' %}" class="floating-headphone" style="height: 400px;" alt="Floating Headphone">
+
+  <!-- Background Banner -->
+  <img src="{% static 'images/bg.avif' %}" class="img-fluid bg-image" style="height: 500px;" alt="Deals Banner">
+
+</div>
+
+
     </div>
 
     <!-- Right Products -->
     <div class="col-lg-8">
       <div class="row row-cols-1 row-cols-md-2 g-4">
-        {% for product in products %}
+        {% for product in new_arrivals %}
         <div class="col">
           <div class="d-flex gap-3 align-items-center">
-            <img src="{{ product.details_image.first.image.url }}" alt="{{ product.product_name }}" class="img-fluid" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
+            <img src="{{ product.details_image.first.image.url }}" alt="{{ product.product_name }}" class="img-fluid" style="width: 150px; height: 150px; object-fit: contain; border-radius: 8px;">
             <div>
-              <p class="mb-1 fw-semibold small text-dark">{{ product.product_name|truncatechars:30 }}</p>
+              <p class="mb-1 fw-semibold small text-dark">{{ product.product_name}}</p>
 
               <!-- Ratings stars (optional static for now) -->
               <div class="mb-1">
-                <i class="fa fa-star text-warning"></i>
-                <i class="fa fa-star text-warning"></i>
-                <i class="fa fa-star text-warning"></i>
-                <i class="fa fa-star text-warning"></i>
-                <i class="fa fa-star-half-alt text-warning"></i>
-                <span class="text-muted small">34</span>
+                {% with rating=product.reviews %}
+                  {% for i in "12345" %}
+                    {% if rating >= forloop.counter %}
+                      <i class="fa fa-star text-warning"></i>
+                    {% elif rating >= forloop.counter0|add:"0.5" %}
+                      <i class="fa fa-star-half-alt text-warning"></i>
+                    {% else %}
+                      <i class="fa fa-star text-secondary"></i>
+                    {% endif %}
+                  {% endfor %}
+                {% endwith %}
               </div>
 
+
               <!-- Pricing -->
-              <div class="fw-bold text-dark">
-                ₹{{ product.price }}
-                {% if product.original_price %}
-                <del class="text-muted fw-normal small">₹{{ product.original_price }}</del>
-                {% endif %}
+              <div class="d-flex justify-content-between align-items-center px-2 mt-2">
+              {% if product.discount_price %}
+              <div>
+                <span class="text-muted text-decoration-line-through">₹ {{ product.original_price }}</span>
+                <span class="text-danger fw-bold">₹ {{ product.discount_price }}</span>
               </div>
+              {% else %}
+              <span class="text-danger fw-bold">₹ {{ product.original_price }}</span>
+              {% endif %}
+            </div>
             </div>
           </div>
         </div>
@@ -224,12 +545,12 @@
 
   </div>
 </div>
+</div>
+
 
  
-
-
-   <!--visit our store-->
-  <div class="map">
+<!--visit our store-->
+<div class="map">
   <div class="container py-4">
     <h2 class="text-center mb-4">Visit Our Store</h2>
     
@@ -237,6 +558,8 @@
    
   </div>
 </div>
+
+
 {% endblock%}
 
 

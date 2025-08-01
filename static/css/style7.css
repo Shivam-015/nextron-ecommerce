@@ -3,6 +3,7 @@
 }
 
 
+
 nav.navbar {
     position: relative;
     z-index: 999;
@@ -13,6 +14,30 @@ nav.navbar {
  z-index: 10000;
  position: relative;
 }
+
+
+
+
+
+  .search-icon-btn {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 16px;
+  }
+
+  .search-icon-btn:focus {
+    outline: none;
+  }
+
+
+
+
+
 
 /* Hide scrollbar cross-browser */
 .hide-scrollbar::-webkit-scrollbar {
@@ -31,6 +56,7 @@ nav.navbar {
 .category-img:hover {
   transform: scale(1.1);
 }
+
 
 
 .product-card .hover-icons {
@@ -71,10 +97,77 @@ nav.navbar {
 
 
 
+/* featured products */
 
 
 
+/* featured products end*/
 
+/* deals of the day  */
+/* Hover icons on card */
+.deal-card {
+  transition: transform 0.2s;
+  position: relative;
+}
+
+.deal-card:hover {
+  transform: translateY(-5px);
+}
+
+.hover-icons {
+  transition: opacity 0.2s;
+  z-index: 2;
+}
+
+.deal-card:hover .hover-icons {
+  opacity: 1;
+}
+
+a.btn-view-all {
+  all: unset;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  text-decoration: none;
+  border-bottom: 1px solid #1a1a1a;
+  letter-spacing: 1px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#productScroll {
+    scrollbar-width: none;
+  }
+  #productScroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hover-icons {
+    transition: opacity 0.3s;
+  }
+
+  .product-card:hover .hover-icons {
+    opacity: 1 !important;
+  }
+
+  .product-card {
+    height: 420px; /* consistent height */
+    scroll-snap-align: start;
+  }
+/* deals of the day end */
+
+
+/* deals banner */
+.banner-wrapper img {
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Mobile responsive banner height */
+@media (max-width: 768px) {
+  .custom-banner-img {
+  height: 180px;
+  }
+}
 
 
 
@@ -89,7 +182,6 @@ nav.navbar {
 /* cart */
         .cart-wrapper {
             background-color: #f8f9fa;
-            min-height: 100vh;
             padding: 40px 0;
         }
 
@@ -188,7 +280,7 @@ nav.navbar {
         }
 
 /* profile page */
- body { background-color: #f8f9fa; }
+
     .sidebar-card {
       border-radius: 1rem;
     }
@@ -212,4 +304,53 @@ nav.navbar {
       box-shadow: 0 0 0.5rem rgba(0,0,0,0.1);
     }
 
+/* wishlist */
+.product-cards {
+  background: #fff;
+  transition: all 0.3s ease;
+  border-radius: 18px;
+}
 
+.product-cards:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+
+/* new arrivals */
+.position-banner {
+    position: relative;
+    height: 520px;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+
+  .position-banner img.bg-image {
+    
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+  
+
+  .floating-headphone {
+    position: absolute;
+   object-position: bottom;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 200px;
+    animation: floatUpDown 2.5s ease-in-out infinite;
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  @keyframes floatUpDown {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-20px);
+    }
+  }
+/* new arrivals */

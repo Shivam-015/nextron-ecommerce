@@ -4,67 +4,72 @@
   
 
     {% block content %}
-     <div class="class=" bg-gradient text-white>
+     
 
-  <section class="vh-100">
-    <div class="container h-100 py-5">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-          <div class="card bg-dark text-white shadow-lg rounded-4">
-            <div class="card-body p-5 text-center">
+<section class="vh-100 d-flex align-items-center bg-light" 
+         style="background-image: url('{% static 'images/login1.png' %}'); 
+                background-size: cover; 
+                background-position: bottom; 
+                background-repeat: no-repeat;">
+  <div class="container">
+    <div class="row justify-content-end">
+      <div class="col-12 col-md-6 col-lg-5 col-xl-4">
+        <div class="form-container bg-white p-4 rounded-4 shadow">
 
-              <h2 class="fw-bold mb-4 text-uppercase">Login</h2>
-              <p class="text-white-50 mb-4">Please enter your login and password!</p>
-              <!-- messages -->
-                {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
-                  <strong>{{ message }}</strong>  
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                {% endfor %}
-                {% endif %}
-               <form method="POST">
-             {% csrf_token %} 
+          <img src="{% static 'images/logo.png' %}" alt="Logo" class="mb-3" style="width: 50px;">
 
-                <div class="form-floating mb-3">
-                  <input type="email" class="form-control bg-transparent text-white border-light" id="email" placeholder="name@example.com" name="email_login">
-                  <label for="email">Email address</label>
-                </div>
+          <h5 class="fw-bold">Welcome to <span class="text-primary">Nextron</span></h5>
+          <p class="text-muted mb-3 small">Please log in using the form below.</p>
 
-                <div class="form-floating mb-4">
-                  <input type="password" class="form-control bg-transparent text-white border-light" id="password" placeholder="Password" name="password_login">
-                  <label for="password">Password</label>
-                </div>
-
-                <div class="mb-3">
-                  <a href="{% url 'send_otp' %}" class="link-light small">Forgot password?</a>
-                </div>
-
-               <button type="submit" class="btn btn-primary">Login</button>
-
-                <hr class="text-white my-4">
-
-                <div class="d-flex justify-content-center gap-4">
-                  <a href="#" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
-                  <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
-                  <a href="#" class="text-white"><i class="fab fa-google fa-lg"></i></a>
-                </div>
-
-              </form>
-
-             
- 
+          {% if messages %}
+            {% for message in messages %}
+              <p class="small mb-2 {% if message.tags == 'error' or message.tags == 'danger' %}text-danger{% elif message.tags == 'success' %}text-success{% else %}text-muted{% endif %}">
+                {{ message }}
+              </p>
+            {% endfor %}
+          {% endif %}
 
 
-              <p class="mt-4 mb-0">Don't have an account? <a href="{% url 'register' %}" class="text-white fw-bold">Sign Up</a></p>
 
+          <form method="POST">
+            {% csrf_token %}
+            <div class="form-floating mb-2 text-start">
+              <input type="email" class="form-control" id="email" name="email_login" placeholder="name@example.com" required>
+              <label for="email">Email address</label>
             </div>
-          </div>
+
+            <div class="form-floating mb-2 text-start">
+              <input type="password" class="form-control" id="password" name="password_login" placeholder="Password" required>
+              <label for="password">Password</label>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">Remember me</label>
+              </div>
+              <a href="{% url 'forget_password' %}" class="text-primary small">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-2">Log in</button>
+
+            <div class="text-center text-muted mb-2 small">Or</div>
+            <a href="{% url 'social:begin' 'google-oauth2' %}?next=/google-login-success/" class="btn btn-danger text-white w-100 text-center" style="text-decoration: none;">
+    Continue with Google
+</a>
+
+
+
+            <p class="mt-2 small">Don't have an account? 
+              <a href="{% url 'register' %}?next={{ request.path }}" class="text-primary fw-bold">Sign Up</a>
+            </p>
+          </form>
         </div>
       </div>
     </div>
-  </section>
-</div>
+  </div>
+</section>
+
+
   
 {% endblock%}

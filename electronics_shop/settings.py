@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-bih5p!sw90hayvq&ntxaqvfb)ir=25k=+2y&au=g^*j+i1ha41
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'category',
     'accounts',
     'products',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+   
 ]
 
 ROOT_URLCONF = 'electronics_shop.urls'
@@ -71,6 +74,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'accounts.context_processors.register_data',
+                'products.context_processors.wishlist_processor',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+
             ],
         },
     },
@@ -137,40 +145,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
- #for session
-"""REST_FRAMEWORK ={
-    'DEFAULT_PERMISSION_CLASSES':[
-        'rest-framework.permissions.isAuthenticated',
-
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES':[
-        'rest_framework.authentication.SessionAuthentication',
-
-    ],
-}"""
-#token
-"""REST_FRAMEWORK ={
-    'DEFAULT_PERMISSION_CLASSES':[
-        'rest_framework.permissions.IsAuthenticated',
-
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES':[
-        'rest_framework.authentication.TokenAuthentication',
-
-    ],
-}"""
-
-#jwt 
-"""REST_FRAMEWORK ={
-    'DEFAULT_PERMISSION_CLASSES':[
-        'rest_framework.permissions.IsAuthenticated',
-
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES':[
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-
-    ],
-}"""
 
 
 
@@ -183,3 +157,17 @@ EMAIL_HOST_PASSWORD = "skyu qnct gnie fkom"
 
 
 
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '32214141851-mhmcei9o8v32h62h4g92mpi7tj2vhhae.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+LOGIN_REDIRECT_URL = '/google-login-success/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']

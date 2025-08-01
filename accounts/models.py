@@ -1,26 +1,76 @@
 from django.db import models
+
 class Register(models.Model):
-    name  = models.CharField(max_length=50,null=False)
+    GENDER_CHOICES = (
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('other', 'Other'),
+    )
+
+    name = models.CharField(max_length=50, null=False)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=False)
     email = models.EmailField(null=False)
-    contact = models.IntegerField(null=False)
-    password = models.CharField(max_length=40,null=False)
+    contact = models.CharField(max_length=15, null=False)  # changed from IntegerField
+    password = models.CharField(max_length=40, null=False)
 
     def __str__(self):
         return self.name
 
-
+  
+    
 class Billing(models.Model):
-    shipping_first_name = models.CharField(max_length=200)
-    shipping_last_name   = models.CharField(max_length=200)
-    shipping_phone_no = models.CharField(max_length=15)
-    shipping_email  = models.EmailField(null=False)
-    shipping_zipcode = models.CharField(max_length=10)
-    shipping_city = models.CharField(max_length=100)
-    shipping_state = models.CharField(max_length=100)
-    shipping_address = models.TextField()
-    shipping_country = models.CharField(max_length=100)
-    shipping_notes = models.TextField(null=True, blank=True)   
+    user = models.ForeignKey(Register , on_delete=models.CASCADE , null=True , blank=True)
+    full_name = models.CharField(max_length=100)
+    email_shipping = models.EmailField()
+    phone = models.IntegerField()
+    address = models.CharField(max_length=150)
+    country = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    zip_code = models.IntegerField()
+    order_notes = models.TextField(blank=True , null=True)
 
-    stripe_payment_intent = models.CharField(max_length=255, blank=True, null=True)
-    status = models.CharField(max_length=50, default="Pending")
-    created_at = models.DateTimeField(auto_now_add=True)    
+    class Meta:
+        verbose_name = 'billing address'
+        verbose_name_plural = 'billing addresses'
+
+    def __str__(self):
+        return self.first_name
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('PENDING' , 'Pending'),
+        ('PROCESSING' , 'Processing'),
+        ('PACKED', 'Packed'),
+        ('SHIPPED', 'Shipped'),
+        ('IN_TRANSIT', 'In Transit'),
+        ('OUT_FOR_DELIVERY', 'Out for Delivery'),
+        ('CANCELLED' , 'Cancelled'),
+        ('DELIVERED' , 'Delivered'),
+    ]
+    PAYMENT_CHOICES = [
+        ('COD' , 'Cah on Delivery'),
+        ('CARD' , 'Paid via Card'),
+    ]
+
+    user = models.ForeignKey(Register , on_delete=models.CASCADE)
+    payment_method = models.CharField(max_length=15 , choices=PAYMENT_CHOICES)
+    status = models.CharField(max_length=50 , choices=STATUS_CHOICES)
+    total_price = models.FloatField()
+    billing_address = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.status
+    
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order , on_delete=models.CASCADE , related_name='items')
+    product = models.ForeignKey('products.Product' , on_delete=models.CASCADE)
+    price = models.FloatField()
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.price
+
+
+

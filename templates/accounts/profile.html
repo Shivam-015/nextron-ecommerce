@@ -1,83 +1,257 @@
-{% extends 'base.html'%} 
-    
-   {%load static %}
-  
+{% extends 'base.html' %}
+{% load static %}
 
-    {% block content %}
-<div class="container py-5">
+{% block content %}
+<style>
+  body {
+    background-color: #f9f9f9;
+  }
+
+  .account-wrapper {
+    padding: 2rem 0;
+  }
+
+.account-sidebar {
+  width: 250px;
+  font-size: 14px;
+  padding: 1rem 0;
+  background: #fff;
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f1f1;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.user-details .user-name {
+  font-weight: 600;
+}
+
+.user-details .user-bonus {
+  font-size: 13px;
+  color: #888;
+}
+
+.sidebar-group {
+  padding: 1rem 1.5rem 0;
+}
+
+.sidebar-label {
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-group ul li {
+  padding: 8px 0;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.sidebar-group ul li i {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.sidebar-group ul li.active {
+  font-weight: 600;
+  color: #000;
+}
+
+.sidebar-group ul li:hover {
+  background-color: #f2f2f2;
+  border-radius: 6px;
+  padding-left: 5px;
+}
+
+
+  .account-content {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 6px;
+  }
+
+  .account-content h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  .info-section {
+    margin-bottom: 2rem;
+  }
+
+  .info-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .info-value {
+    color: #333;
+    margin-bottom: 0.25rem;
+  }
+
+  .edit-link {
+    float: right;
+    font-size: 14px;
+    color: #007185;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .edit-link:hover {
+    text-decoration: underline;
+  }
+
+  .divider {
+    border-bottom: 1px solid #e2e2e2;
+    margin: 2rem 0;
+  }
+
+  .delete-account {
+    color: #d32f2f;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .delete-account:hover {
+    text-decoration: underline;
+  }
+
+  .small-muted {
+    font-size: 13px;
+    color: #555;
+  }
+</style>
+
+<div class="container account-wrapper">
+
   <div class="row">
 
-    <!-- Sidebar -->
-    <div class="col-md-3">
-      <div class="bg-white sidebar-card shadow-sm p-3 text-center">
-        <img src="https://via.placeholder.com/100" class="rounded-circle mb-2" width="100" height="100" alt="Profile">
-        <h6 class="fw-bold">kmart</h6>
-        <p class="text-muted small">Email</p>
-        <hr>
-        <a href="#" class="d-block text-dark text-decoration-none sidebar-item"><i class="bi bi-box"></i> Orders</a>
-    <a href="#" class="d-block text-dark text-decoration-none sidebar-item"><i class="bi bi-wallet2"></i> Wallet</a>
-    <a href="{% url 'cart' %}" class="d-block text-dark text-decoration-none sidebar-item"><i class="bi bi-cart"></i> Cart</a>
-    <a href="#" class="d-block text-dark text-decoration-none sidebar-item"><i class="bi bi-geo-alt"></i> Address</a>
-    <a href="#" class="d-block text-dark text-decoration-none sidebar-item active3"><i class="bi bi-person"></i> Account Details</a>
-    <a href="{% url 'logout' %}" class="d-block text-dark text-decoration-none sidebar-item"><i class="bi bi-box-arrow-right"></i> Log Out</a>
+    <div class="col-lg-3">
+      <!-- Sidebar -->
+      <div class="account-sidebar">
+      <!-- User -->
+      <div class="sidebar-user">
+        <div class="avatar"> {{user.name|slice:":1"}} </div>
+        <div class="user-details">
+          <div class="user-name"> {{user.name}} </div>
+          <div class="user-bonus">🎁 100 bonuses available</div>
+        </div>
+      </div>
+
+      <!-- Orders -->
+       
+      <div class="sidebar-group">
+        <p class="sidebar-label">Orders</p>
+        <ul>
+          <li> <a href="{% url 'wishlist' %}" class="text-decoration-none text-dark"> <i class="bi bi-heart"></i> Wishlist</a></li>
+          <li> <a href="{% url 'cart' %}" class="text-decoration-none text-dark"><i class="bi bi-cart"></i> Cart</a></li>
+          <li> <a href="{% url 'my_orders' %}" class="text-decoration-none text-dark"><i class="bi bi-star"></i>My Orders</a></li>
+          
+        </ul>
+      </div>
+
+      <!-- Manage Account -->
+      <div class="sidebar-group">
+        <p class="sidebar-label">Manage account</p>
+        <ul>
+          <li class="active"><a href="{% url 'profile' %}" class="text-decoration-none text-dark"><i class="bi bi-person"></i> Personal Info </a></li>
+          <li><a href="{% url 'address' %}" class="text-decoration-none text-dark"><i class="bi bi-geo-alt"></i> Addresses</li>
+        </ul>
+      </div>
+
+      <!-- Customer Service -->
+      <div class="sidebar-group">
+        <p class="sidebar-label">Customer service</p>
+        <ul>
+          <li><i class="bi bi-question-circle"></i> Help center</li>
+          <li><i class="bi bi-file-earmark-text"></i> Terms and conditions</li>
+        </ul>
+      </div>
+
+      <!-- Logout -->
+      <div class="sidebar-group">
+        <ul>
+          <li> <a href="{% url 'logout' %}" class="text-decoration-none text-dark"> <i class="bi bi-box-arrow-right"></i> Log out </a> </li>
+        </ul>
+      </div>
       </div>
     </div>
 
-    <!-- Content -->
-    <div class="col-md-9">
-      <div class="row g-3 mb-4">
-        <div class="col-md-6">
-          <a href="#" class="text-decoration-none text-dark">
-            <div class="bg-white section-box p-4 shadow-sm">
-              <h5 class="fw-bold">Order Tracking</h5>
-              <p class="text-muted">See your order history.</p>
-              <img src="https://via.placeholder.com/100x60" alt="Order Tracking">
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6">
-          <a href="#" class="text-decoration-none text-dark">
-            <div class="bg-white section-box p-4 shadow-sm">
-              <h5 class="fw-bold">Billing Address</h5>
-              <p class="text-muted">Set your billing address.</p>
-              <img src="https://via.placeholder.com/100x60" alt="Billing">
-            </div>
-          </a>
-        </div>
-      </div>
+    <div class="col-lg-9">
+      <!-- Content -->
+      <div class="account-content">
+        <h3>Personal info</h3>
 
-      <div class="bg-white p-4 rounded shadow-sm">
-        <h4 class="fw-bold border-bottom pb-2 mb-4">Account Details</h4>
-        <form>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label class="form-label">First Name</label>
-              <input type="text" class="form-control" value="">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Last Name</label>
-              <input type="text" class="form-control" value="">
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-control" value="">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Password</label>
-              <div class="input-group">
-                <input type="password" class="form-control" value="">
-                <span class="input-group-text"><i class="bi bi-eye"></i></span>
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-danger">Edit Profile</button>
-        </form>
-      </div>
+        <!-- Basic Info -->
+        <div class="info-section">
+          <div class="info-title">Basic info <a href="#" class="edit-link">Edit</a></div>
+          <div class="info-value">{{ user.name }}</div>
+          <div class="info-value">{{ user.gender }}</div>
+        </div>
 
+        <div class="divider"></div>
+
+        <!-- Contact -->
+        <div class="info-section">
+          <div class="info-title">Contact <a href="#" class="edit-link">Edit</a></div>
+          <div class="info-value">{{ user.email }}</div>
+          <div class="info-value">{{ user.contact }} <span style="color: green;">Verified</span></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Password -->
+        <div class="info-section">
+          <div class="info-title">Password <a href="{% url 'reset_password' %}" class="edit-link">Edit</a></div>
+          <div class="info-value">**********</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Delete Account -->
+        <div class="info-section">
+          <div class="info-title">Delete account</div>
+          <p class="small-muted">
+            When you delete your account, your public profile will be deactivated immediately. 
+          </p>
+          <a href="{% url 'delete_account' %}" class="delete-account">Delete account</a>
+        </div>
+
+      </div>
     </div>
   </div>
-</div>
 
+
+</div>
 {% endblock %}

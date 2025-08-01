@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>My Orders</h2>
+  {% for order in orders %}
+  <div class="card mb-3">
+    <div class="card-header">
+      <strong>Order ID:</strong> {{ order.id }} | 
+      <strong>Status:</strong> {{ order.status }} | 
+      <strong>Payment:</strong> {{ order.payment_method }} | 
+      <strong>Ordered On:</strong> {{ order.created_at|date:"d M Y H:i" }}
+
+    </div>
+    <div class="card-body p-0">
+      <table class="table mb-0">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order.items.all %}
+          <tr>
+            <td>{{ item.product.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>₹{{ item.price }}</td>
+            <td><a href="{% url 'track_order' order.id %}" class="text-decoration-none text-dark"> <strong>Track Order</strong></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% empty %}
+    <p>No past orders found.</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -28,15 +28,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (priceSlider && minInput && maxInput && minDisplay && maxDisplay) {
     const minValue = parseInt(minInput.value || 0);
-    const maxValue = parseInt(maxInput.value || 1000000);
+    const maxValue = parseInt(maxInput.value || 100000);
 
     noUiSlider.create(priceSlider, {
       start: [minValue, maxValue],
       connect: true,
-      step: 100,
+      step: 1000,
       range: {
         min: 0,
-        max: 1000000,
+        max: 100000,
       },
       format: {
         to: value => Math.round(value),
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Input → Slider (on blur or Enter)
     minDisplay.addEventListener("change", function () {
       let val = parseInt(this.value) || 0;
-      let currentMax = parseInt(maxDisplay.value) || 1000000;
+      let currentMax = parseInt(maxDisplay.value) || 100000;
       priceSlider.noUiSlider.set([val, currentMax]);
     });
 
@@ -68,8 +68,49 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// for product details
-function changeImage(event, src) {
-  document.getElementById("mainImage").src = src;
 
+
+// for product details
+
+// for deals scroll
+
+ const container = document.getElementById("productScroll");
+  const card = container.querySelector(".product-card");
+  const cardWidth = card.offsetWidth + 16;
+
+  document.getElementById("scrollRightBtn").addEventListener("click", () => {
+    container.scrollBy({ left: cardWidth, behavior: "smooth" });
+  });
+
+  document.getElementById("scrollLeftBtn").addEventListener("click", () => {
+    container.scrollBy({ left: -cardWidth, behavior: "smooth" });
+  })
+
+
+  // for all products wishlist
+  function toggleWishlist(button) {
+    const productId = button.getAttribute('data-product-id');
+
+    fetch(`/add-to-wishlist/${productId}/`)
+      .then(() => {
+        const icon = button.querySelector('i');
+        icon.classList.toggle('fas');
+        icon.classList.toggle('far');
+      })
+      .catch(err => console.error('Wishlist toggle failed:', err));
   }
+
+
+// home page message display
+
+  window.addEventListener("DOMContentLoaded", function () {
+    const msg = document.getElementById("floating-message");
+    if (msg) {
+      setTimeout(() => {
+        msg.style.opacity = "0";
+        msg.style.transition = "opacity 0.5s ease";
+        setTimeout(() => msg.remove(), 500);
+      }, 3500);
+    }
+  });
+
