@@ -2,10 +2,11 @@ from django.shortcuts import render,redirect , get_object_or_404
 from .models import Register,Billing , Order , OrderItem
 from django.core.mail import send_mail
 from django.conf import settings
-import string,random
+import random
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
-from products.models import CartItem
+from products.models import CartItem , Product 
+
 import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 from django.http import HttpResponse
@@ -14,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 def register(request):  # register page
     if request.method == "POST":
         name_var = request.POST.get('name')
-        gender_var = request.POST.get('gender')    # ✅ Gender field fetched
+        gender_var = request.POST.get('gender')    
         contact_var = request.POST.get('contact')
         email_var = request.POST.get('email')
         password_var = request.POST.get('password')
@@ -28,7 +29,7 @@ def register(request):  # register page
         
         data1 = Register(
             name=name_var,
-            gender=gender_var,                # ✅ Gender stored in model
+            gender=gender_var,                
             contact=contact_var,
             email=email_var,
             password=hashed_password
@@ -53,15 +54,15 @@ def user_login(request):
                 return render(request, 'accounts/login.html')
             
             if check_password(password_var , form_data.password):
-                request.session['register_id'] = form_data.id   # ✅ register_id is variable and it stores the id of current user
-                request.session['user_email'] = form_data.email  # ✅ 👈 Session line added (only this)
+                request.session['register_id'] = form_data.id   # register_id is variable and it stores the id of current user
+                request.session['user_email'] = form_data.email  
                 messages.success(request,"Login Successfull")
                 return redirect('home')
             else:
                 messages.error(request,"Incorrect Password!")
                 return render(request , 'accounts/login.html')
         except Register.DoesNotExist:   # if email entered by user does not exist
-            messages.error("User does not exist")  # ✅ ye line me () hata diya error tha
+            messages.error("User does not exist")  
             return render (request,'accounts/login.html')
 
     return render(request , 'accounts/login.html')
@@ -114,14 +115,31 @@ def address(request):
                 zip_code = zip_code,
                 order_notes = order_notes
             )
-
-        cart = CartItem.objects.filter(user_id = register_id)
-        if not cart.exists():
-            return redirect('cart')
-        
+        buy_now = request.session.get('buy_now')
         grand_total = 0
-        for item in cart:
-            grand_total += item.total_price()
+        items = []
+        if buy_now:
+            product = get_object_or_404(Product , id=buy_now['id'])
+            quantity = buy_now.get('quantity' , 1)
+            price = product.discount_price * quantity
+            grand_total += price
+            items.append({
+                'product' : product ,
+                'quantity' : quantity , 
+                'price' : price
+            })
+        else:
+            cart = CartItem.objects.filter(user_id = register_id)
+            if not cart.exists():
+                return redirect('cart')
+            
+            for item in cart:
+                grand_total += item.total_price()
+                items.append({
+                    'product' : item.product ,
+                    'quantity' : item.quantity ,
+                    'price' : item.total_price()
+                })
 
         # shipping charges
         if grand_total < 1499:
@@ -170,11 +188,24 @@ def address(request):
             )
 
         return redirect(session.url , code=303)
-    cart = CartItem.objects.filter(user_id = register_id)
-    total = 0
-    for item in cart:
-        total += item.total_price()
-    return render(request , 'cart/billing.html' , {'saved_address' : saved_address , 'items' : cart , 'total' : total})
+    buy_now = request.session.get('buy_now')
+    if buy_now:
+        product = get_object_or_404(Product , id=buy_now['id'])
+        quantity = buy_now.get('quantity' , 1)
+        total = product.discount_price * quantity
+        grand_total += price
+        items.append({
+            'product' : product ,
+            'quantity' : quantity , 
+            'price' : total
+            })
+    else:
+        cart = CartItem.objects.filter(user_id = register_id)
+        total = 0
+        for item in cart:
+            total += item.total_price()
+        items = cart
+    return render(request , 'cart/billing.html' , {'saved_address' : saved_address , 'items' : items , 'total' : total})
 
 def add_address(request):
     register_id = request.session.get('register_id')
@@ -205,10 +236,6 @@ def add_address(request):
         return redirect('profile')
 
     return render(request , 'cart/address.html')
-
-# def order_success(request , order_id):
-#     order = get_object_or_404(Order , id = order_id)
-#     return render(request , 'accounts/order_success.html' , {'orders' : order})
 
 
 def payment_success(request, order_id=None):

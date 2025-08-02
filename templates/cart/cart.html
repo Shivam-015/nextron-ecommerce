@@ -1,124 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
 
-    {% extends 'base.html'%} 
-    
-   {%load static %}
+{% block content %}
+<div class="cart-wrapper py-5 bg-light" style="min-height: 80vh;">
+  <div class="container">
+    <div class="row g-4">
 
-    {% block content %}
-    <div class="cart-wrapper py-5 bg-light">
-    <div class="container">
-        <div class="row g-4">
-            <!-- Cart Items Section -->
-            <div class="col-lg-8">
-                <!-- Cart Header Section -->
-                <div class="mb-3">
-                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-                        <h4 class="mb-0">Shopping Cart</h4>
-                        <span class="text-muted">Items: {{ total_quantity }}</span>
-                    </div>
+      <!-- 🛒 Cart Items Section -->
+      <div class="col-lg-8">
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+            <h4 class="mb-0">Shopping Cart</h4>
+            <span class="text-muted">Items: {{ total_quantity }}</span>
+          </div>
 
-                    <!-- Desktop Header Row -->
-                    <div class="row fw-semibold text-muted d-none d-md-flex">
-                        <div class="col-md-2">Image</div>
-                        <div class="col-md-4">Product</div>
-                        <div class="col-md-3">Quantity</div>
-                        <div class="col-md-2">Price</div>
-                        <div class="col-md-1 text-end">Remove</div>
-                    </div>
-                </div>
-
-
-                {% if items %}
-                    
-                    <div class="product-card p-3 shadow-sm mb-3 rounded-3 bg-white">
-                        {% for item in items %}
-                        <div class="row align-items-center">
-                            <div class="col-md-2 d-flex justify-content-center">
-                                <img src="{{ item.product.details_image.first.image.url }}" alt="{{ item.product.product_name }}" class="img-fluid" style="max-height: 80px;">
-                            </div>
-                            <div class="col-md-4">
-                                <h6 class="mb-1 fw-bold">{{ item.product.product_name }}</h6>
-                                <p class="text-muted mb-0 text-truncate">{{ item.product.description}}</p>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <a href="{% url 'decrease' item.id %}" class="btn btn-outline-secondary btn-sm">−</a>
-                                    <input type="text" class="form-control form-control-sm text-center" value="{{ item.quantity }}" style="width: 50px;">
-                                    <a href="{% url 'increase' item.id %}" class="btn btn-outline-secondary btn-sm">+</a>
-                                </div>
-                            </div>
-                            <div class="col-md-2 fw-bold">
-                                ₹ {{ item.total_price }}
-                            </div>
-                            <div class="col-md-1 text-end">
-                                <a href="{% url 'delete_from_cart' item.id %}" class="text-danger">
-                                    <i class="bi bi-trash fs-5"></i>
-                                </a>
-                            </div>
-                        </div>
-                    <hr>
-                        {% endfor %}
-                    </div>
-                    
-                {% else %}
-                    <h5 class="text-muted">There are no products in your cart.</h5>
-                {% endif %}
-            </div>
-
-            <!-- Summary Section -->
-            <div class="col-lg-4">
-                <div class="summary-card p-4 shadow-sm rounded-3 bg-white">
-                    <h5 class="mb-4">Order Summary</h5>
-
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="text-muted">Subtotal</span>
-                        <span>₹ {{ total }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="text-muted">Discount</span>
-                        <span class="text-success"> {{discount}} </span>
-                    </div>
-                    {% if items %}
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="text-muted">Shipping</span>
-                        <span class="text-danger"> {{shipping}} </span>
-                        
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-4">
-                        <span class="fw-bold">Grand Total</span>
-                        <span class="fw-bold">₹ {{ grand }}</span>
-                    </div>
-
-
-                    <a href="{% url 'address' %}" class="btn btn-primary w-100 mb-3">
-                        Proceed to Checkout
-                    </a>
-
-                    <div class="d-flex justify-content-center gap-2">
-                        <i class="bi bi-shield-check text-success"></i>
-                        <small class="text-muted">Secure checkout</small>
-                    </div>
-                    {% else %}
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="text-muted">Shipping</span>
-                        <span class="text-danger">₹ 0 </span>
-                        
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-4">
-                        <span class="fw-bold">Grand Total</span>
-                        <span class="fw-bold">₹ 0</span>
-                    </div>
-                    <a href="{% url 'all_products' %}" class="btn btn-primary w-100 mb-3">
-                        Shop Now
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
+          <!-- Header row -->
+          <div class="row fw-semibold text-muted d-none d-md-flex">
+            <div class="col-md-2">Image</div>
+            <div class="col-md-4">Product</div>
+            <div class="col-md-3">Quantity</div>
+            <div class="col-md-2">Price</div>
+            <div class="col-md-1 text-end">Remove</div>
+          </div>
         </div>
-    </div>
-</div>
 
+        <!-- 🎯 Product List or Empty Message -->
+        {% if items %}
+          <div class="product-card p-3 shadow-sm mb-3 rounded-3 bg-white">
+            {% for item in items %}
+              <div class="row align-items-center">
+                <div class="col-md-2 text-center">
+                  <img src="{{ item.product.details_image.first.image.url }}" alt="{{ item.product.product_name }}" class="img-fluid" style="max-height: 80px;">
+                </div>
+                <div class="col-md-4">
+                  <h6 class="fw-bold mb-1">{{ item.product.product_name }}</h6>
+                  <p class="text-muted small text-truncate mb-0">{{ item.product.description }}</p>
+                </div>
+                <div class="col-md-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <a href="{% url 'decrease' item.id %}" class="btn btn-outline-secondary btn-sm">−</a>
+                    <input type="text" class="form-control form-control-sm text-center" value="{{ item.quantity }}" style="width: 50px;" readonly>
+                    <a href="{% url 'increase' item.id %}" class="btn btn-outline-secondary btn-sm">+</a>
+                  </div>
+                </div>
+                <div class="col-md-2 fw-bold">₹ {{ item.total_price }}</div>
+                <div class="col-md-1 text-end">
+                  <a href="{% url 'delete_from_cart' item.id %}" class="text-danger"><i class="bi bi-trash fs-5"></i></a>
+                </div>
+              </div>
+              <hr>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="bg-white p-5 rounded-4 shadow-sm text-center">
+            <h5 class="text-muted">🛒 Your cart is currently empty.</h5>
+            <p class="text-muted">Browse our products and add your favorites!</p>
+            <a href="{% url 'all_products' %}" class="btn btn-outline-primary mt-2">Continue Shopping</a>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- ✅ Order Summary -->
+      <div class="col-lg-4">
+        <div class="summary-card p-4 shadow-sm rounded-3 bg-white">
+          <h5 class="mb-4">Order Summary</h5>
+
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Subtotal</span>
+            <span>₹ {{ total }}</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Discount</span>
+            <span class="text-success">{{ discount }}</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Shipping</span>
+            <span class="text-danger">{{ shipping }}</span>
+          </div>
+
+          <hr>
+
+          <div class="d-flex justify-content-between mb-4">
+            <span class="fw-bold">Grand Total</span>
+            <span class="fw-bold">₹ {{ grand }}</span>
+          </div>
+
+          {% if items %}
+            <a href="{% url 'address' %}" class="btn btn-primary w-100 mb-3">Proceed to Checkout</a>
+            <div class="d-flex justify-content-center gap-2">
+              <i class="bi bi-shield-check text-success"></i>
+              <small class="text-muted">Secure checkout</small>
+            </div>
+          {% else %}
+            <a href="{% url 'all_products' %}" class="btn btn-primary w-100 mb-3">Shop Now</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'javascript/script.js' %}"></script>

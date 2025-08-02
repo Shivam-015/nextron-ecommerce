@@ -45,7 +45,15 @@
     </button>
   </div>
 </form>
-        <a href="{% url 'cart' %}" class="text-light"><i class="fa-solid fa-cart-shopping fs-5"></i></a>
+        <a href="{% url 'cart' %}" class="text-light position-relative">
+          <i class="fas fa-bag-shopping fs-5"></i>
+          {% if cart_items_count > 0 %}
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
+            {{ cart_items_count }}
+          </span>
+          {% endif %}
+        </a>
+
         <a href="{% url 'wishlist' %}" class="text-light"><i class="fa-solid fa-heart fs-5"></i></a>
         <a href="{% url 'profile' %}" class="text-light"><i class="fa-regular fa-user fs-5"></i></a>
       </div>
@@ -68,7 +76,14 @@
       <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
       <li class="nav-item"><a class="nav-link" href="{% url 'wishlist' %}">Wishlist</a></li>
       <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-      <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}">Cart</a></li>
+      <li class="nav-item"><a href="{% url 'cart' %}" class="text-light position-relative">
+          <i class="fas fa-bag-shopping fs-5"></i>
+          {% if cart_items_count > 0 %}
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
+            {{ cart_items_count }}
+          </span>
+          {% endif %}
+        </a></li>
     </ul>
   </div>
 </div>

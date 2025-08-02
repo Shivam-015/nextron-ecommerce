@@ -70,7 +70,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-// for product details
+// for product details 
+
+function changeImageByColor(imageUrl) {
+        document.getElementById("mainImage").src = imageUrl;
+    }
+
+    function changeImage(event, imageUrl) {
+        const mainImage = document.getElementById("mainImage");
+        mainImage.src = imageUrl;
+
+        document.querySelectorAll('.thumbnail').forEach(thumb => {
+            thumb.classList.remove('border', 'border-success');
+        });
+        event.target.classList.add('border', 'border-success');
+    }
+
+function changeImage(src) {
+  document.getElementById("mainImage").src = src;
+
+  }
+
 
 // for deals scroll
 
@@ -101,16 +121,5 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-// home page message display
 
-  window.addEventListener("DOMContentLoaded", function () {
-    const msg = document.getElementById("floating-message");
-    if (msg) {
-      setTimeout(() => {
-        msg.style.opacity = "0";
-        msg.style.transition = "opacity 0.5s ease";
-        setTimeout(() => msg.remove(), 500);
-      }, 3500);
-    }
-  });
 

@@ -6,19 +6,7 @@
     {% block content %}
 
 
-     {% if messages %}
-  <div id="floating-message" class="position-fixed top-25 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow text-center small" 
-       style="z-index: 1055; background-color: white; min-width: 300px;">
-    {% for message in messages %}
-      <span class="{% if message.tags == 'success' %}text-success
-                   {% elif message.tags == 'error' or message.tags == 'danger' %}text-danger
-                   {% elif message.tags == 'warning' %}text-warning
-                   {% else %}text-secondary{% endif %}">
-        {{ message }}
-      </span>
-    {% endfor %}
-  </div>
-{% endif %}
+
 
 
  <!-- Full-Width Carousel -->
@@ -220,7 +208,6 @@
 </div>
 
    
-
 <!-- category -->
 <div class="container my-4">
   <h4 class="mb-3 text-center">Shop by Category</h4>
@@ -266,52 +253,52 @@
         <div id="productScroll" class="d-flex overflow-auto gap-3 px-2" style="scroll-behavior: smooth;">
     {% for product in featured %}
     <div class="col-md-3 col-sm-6 mb-4">
-      <div class="card border-0 shadow position-relative h-100 rounded-4 overflow-hidden product-card hover-shadow-lg">
+    <div class="card border-0 shadow position-relative h-100 rounded-4 overflow-hidden product-card hover-shadow-lg">
 
-        <!-- Product Image -->
-        <div class="position-relative bg-white text-center p-2" style="height: 220px;">
-          <!-- Wishlist Icon (on image hover) -->
-          <button class="btn position-absolute top-0 end-0 m-2 rounded-circle wishlist-btn shadow-sm"
-                data-product-id="{{ product.id }}"
-                onclick="toggleWishlist(this)"
-                title="Toggle wishlist">
-        <i class="{% if product.id in wishlist_ids %}fas{% else %}far{% endif %} fa-heart text-danger"></i>
-      </button>
-
-          
-          {% with product.details_image.all|first as first_image %}
-            {% if first_image %}
-              <img src="{{ first_image.image.url }}" class="h-100 p-1 w-100 rounded-4" style="object-fit: contain; background-color: #faf6e9;" alt="{{ product.product_name }}">
-              
-            {% else %}
-              <img src="{% static 'images/no-image.png' %}" class="h-100 p-3 " style="object-fit: contain;" alt="No Image">
-            {% endif %}
-          {% endwith %}
-        </div>
+      <!-- Product Image -->
+      <div class="position-relative bg-white text-center p-2" style="height: 220px;">
         
+        <!-- Wishlist Icon -->
+        <button class="btn position-absolute top-0 end-0 m-2 rounded-circle wishlist-btn shadow-sm"
+                data-product-id="{{ product.id }}"
+                onclick="event.stopPropagation(); toggleWishlist(this)"
+                title="Toggle wishlist">
+          <i class="{% if product.id in wishlist_ids %}fas{% else %}far{% endif %} fa-heart text-danger"></i>
+        </button>
 
-        <!-- Card Body -->
-        <div class="card-body text-center">
-
-          <!-- Title -->
-          <h6 class="fw-semibold text-truncate mb-2">{{ product.product_name }}</h6>
-
-          <!-- Prices -->
-          <div class="mb-3">
-            <span class="fw-bold fs-5 text-dark">₹ {{ product.discount_price }}</span>
-            {% if product.original_price and product.discount_price != product.original_price %}
-              <span class="text-muted text-decoration-line-through ms-2">₹ {{ product.original_price }}</span>
-            {% endif %}
-          </div>
-
-          <!-- Buttons -->
-          <div class="d-flex justify-content-center">
-            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-dark rounded-pill w-75" >Add to cart</a>
-            
-          </div>
-
-        </div>
+        {% with product.details_image.all|first as first_image %}
+          {% if first_image %}
+            <img src="{{ first_image.image.url }}" class="h-100 p-1 w-100 rounded-4" style="object-fit: contain; background-color: #faf6e9;" alt="{{ product.product_name }}">
+          {% else %}
+            <img src="{% static 'images/no-image.png' %}" class="h-100 p-3" style="object-fit: contain;" alt="No Image">
+          {% endif %}
+        {% endwith %}
       </div>
+
+      <!-- Card Body -->
+      <div class="card-body text-center position-relative">
+
+        <a href="{% url 'product_details' product.id %}" class="stretched-link"></a>
+
+        <!-- Title -->
+        <h6 class="fw-semibold text-truncate mb-2">{{ product.product_name }}</h6>
+
+        <!-- Prices -->
+        <div class="mb-3">
+          <span class="fw-bold fs-5 text-dark">₹ {{ product.discount_price }}</span>
+          {% if product.original_price and product.discount_price != product.original_price %}
+            <span class="text-muted text-decoration-line-through ms-2">₹ {{ product.original_price }}</span>
+          {% endif %}
+        </div>
+
+        <!-- Button -->
+        <div class="d-flex justify-content-center">
+          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-dark rounded-pill w-75">Add to cart</a>
+        </div>
+
+      </div>
+    </div>
+
     </div>
     {% endfor %}
  </div>
@@ -382,9 +369,31 @@
   }
 </style>
 
-    <div class="col-lg-3 mb-4">
-      <img src="{% static 'images/banner.jpg' %}" class="img-fluid rounded shadow"  style="height: 410px; object-fit: cover;" alt="Deals Banner">
-    </div>
+    <div class="col-lg-3 mb-4 position-relative">
+  <!-- Banner Image -->
+  <img src="{% static 'images/banner.jpg' %}" class="img-fluid rounded shadow w-100" style="height: 410px; object-fit: cover;" alt="Deals Banner">
+
+  <!-- Static Timer Overlay at Top Center -->
+  <div class="position-absolute top-0 start-50 translate-middle-x mt-3 d-flex align-items-center gap-2" style="z-index: 2;">
+    <div class="bg-danger text-white px-3 py-2 rounded-2 fw-semibold">12d</div>
+    <span class="text-muted fs-5 blink">:</span>
+    <div class="bg-danger text-white px-3 py-2 rounded-2 fw-semibold">13h</div>
+    <span class="text-muted fs-5 blink">:</span>
+    <div class="bg-danger text-white px-3 py-2 rounded-2 fw-semibold">35m</div>
+  </div>
+</div>
+<style>
+  .blink {
+    animation: blink-animation 1s steps(2, start) infinite;
+  }
+
+  @keyframes blink-animation {
+    to {
+      visibility: hidden;
+    }
+  }
+</style>
+
 
     <!-- Scrollable Products Right -->
     <div class="col-lg-9 position-relative overflow-auto hide-scrollbar">
@@ -397,10 +406,11 @@
         </button>
 
         <!-- Products Scrollable -->
-        <div id="productScroll" class="d-flex overflow-auto gap-3 px-2" style="scroll-behavior: smooth;">
+        <div id="productScroll" class="d-flex overflow-auto gap-3 px-5" style="scroll-behavior: smooth;">
           {% for product in deals %}
           <div class="card product-card border-0 shadow-sm p-3 flex-shrink-0"
                style="width: 300px; height: 100%; scroll-snap-align: start;">
+          <a href="{% url 'product_details' product.id %}" class="stretched-link"></a>
             <!-- Image -->
             {% with product.details_image.all|first as first_image %}
               {% if first_image %}
@@ -412,8 +422,12 @@
 
             <!-- Hover Icons -->
             <div class="position-absolute top-0 end-0 m-2 d-flex flex-column gap-2 opacity-0 hover-icons transition">
-              <button class="btn btn-sm btn-light rounded-circle shadow-sm"><i class="fas fa-heart"></i></button>
-              <button class="btn btn-sm btn-light rounded-circle shadow-sm"><i class="fas fa-sync-alt"></i></button>
+              <button class="btn position-absolute top-0 end-0 m-2 rounded-circle wishlist-btn shadow-sm"
+                        data-product-id="{{ product.id }}"
+                        onclick="event.stopPropagation(); toggleWishlist(this)"
+                        title="Toggle wishlist">
+                  <i class="{% if product.id in wishlist_ids %}fas{% else %}far{% endif %} fa-heart text-danger"></i>
+                </button>
             </div>
 
             <!-- Body -->
@@ -462,7 +476,7 @@
         </div>
         <button id="scrollRightBtn"
           class="btn position-absolute top-50 end-0 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
-          style="z-index: 10; width: 36px; height: 36px;">
+          style=" width: 36px; height: 36px;">
           <i class="bi bi-chevron-right fs-5 m-0 p-0"></i>
         </button>
 
@@ -477,7 +491,7 @@
   <div style="min-height: 80vh;">
      
   
-  <h4 class="mb-4 fw-bold">New arrivals</h4>
+  <h4 class="mb-5 fw-semibold align-items-center text-center" style="font-size: 4rem;">New arrivals</h4>
   <div class="row g-4">
     
     <div class="col-lg-4 ">
@@ -503,7 +517,10 @@
     <div class="col-lg-8">
       <div class="row row-cols-1 row-cols-md-2 g-4">
         {% for product in new_arrivals %}
-        <div class="col">
+        
+        <div class="col position-relative">
+        <a href="{% url 'product_details' product.id %}" class="stretched-link"></a>
+
           <div class="d-flex gap-3 align-items-center">
             <img src="{{ product.details_image.first.image.url }}" alt="{{ product.product_name }}" class="img-fluid" style="width: 150px; height: 150px; object-fit: contain; border-radius: 8px;">
             <div>

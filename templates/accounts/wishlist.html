@@ -51,9 +51,15 @@
                         {% endfor %}
         </div>
     {% else %}
-        <div >
-            <h5 class="text-dark">There are no products in your Wishlist.</h5>
-        </div>
+        <div class="d-flex justify-content-center align-items-center bg-white shadow rounded-3 p-5" style="min-height: 300px;">
+                <div class="text-center">
+                    <img src="{% static 'images/empty-wishlist.png' %}" alt="Empty Wishlist" class="img-fluid mb-3" style="max-width: 150px;">
+                    <h5 class="text-muted">Your wishlist is empty.</h5>
+                    <p class="text-muted small">Looks like you haven't added any products yet.</p>
+                    <a href="{% url 'all_products' %}" class="btn btn-outline-dark mt-2">Browse Products</a>
+                </div>
+            </div>
+
 
     {% endif %}
 </div>

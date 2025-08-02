@@ -70,7 +70,8 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.price
+      return str(self.price)  
+
 
 
 

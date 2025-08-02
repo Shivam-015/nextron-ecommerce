@@ -17,8 +17,6 @@ nav.navbar {
 
 
 
-
-
   .search-icon-btn {
     position: absolute;
     top: 50%;
@@ -354,3 +352,14 @@ a.btn-view-all {
     }
   }
 /* new arrivals */
+
+
+/* cart count */
+.cart-badge {
+  font-size: 0.65rem;
+  padding: 3px 6px;
+  border-radius: 50%;
+  color: rgb(0, 0, 0);
+  background-color: red;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}

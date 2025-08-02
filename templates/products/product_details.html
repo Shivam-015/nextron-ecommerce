@@ -68,23 +68,19 @@
               </div>
             
             <!-- Color Options -->
-            <!-- {% for detail in product.details_image.all %}
-                {% if detail.colors %}
-                    {% if forloop.first %}
-                    <div class="mb-4">
-                        <label class="fw-semibold d-block mb-1">Colour</label>
-                        <div class="d-flex flex-wrap gap-2">
-                    {% endif %}
-                        <button class="btn btn-outline-dark"
-                                onclick="changeImage('{{ detail.image.url }}')">
-                            {{ detail.colors }}
-                        </button>
-                    {% if forloop.last %}
-                        </div>
-                    </div>
-                    {% endif %}
-                {% endif %}
-            {% endfor %} -->
+            {% if valid_colors %}
+            <div class="product-option mb-4">
+                <label class="fw-semibold d-block mb-1">Colour</label>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for img in valid_colors %}
+                    <button class="btn btn-outline-dark me-2"
+                            onclick="changeImageByColor('{{ img.image.url }}')">
+                        {{ img.colors }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
 
             <!-- Quantity -->
             <div class="mb-4">
@@ -97,9 +93,14 @@
                 <a href="{% url 'add_to_cart' product.id %}" class="btn btn-dark btn-lg px-4 shadow">
                     <i class="bi bi-cart-plus me-2"></i>Add to cart
                 </a>
-                <button class="btn btn-outline-success btn-lg px-4 shadow">
-                    <i class="bi bi-lightning-fill me-2"></i>Buy Now
-                </button>
+                <form method="POST" action="{% url 'buy_now' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button class="btn btn-outline-success btn-lg px-4 shadow">
+                        <i class="bi bi-lightning-fill me-2"></i>Buy Now
+                    </button>
+                </form>
+
             </div>
 
             <!-- Description -->
@@ -109,13 +110,6 @@
         </div>
     </div>
 </div>
-
-<script>
-function changeImage(src) {
-  document.getElementById("mainImage").src = src;
-
-  }
-</script>
 
 
 {% endblock %}

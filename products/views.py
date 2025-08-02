@@ -13,7 +13,7 @@ def home(request):
     deals = []
     for product in products:
         discount = product.discount_percent()
-        if discount > 15:
+        if discount > 5:
             deals.append(product)
     featured = products.order_by('-reviews')[:8]
     new_arrivals = products.order_by('-created_date')[:6]
@@ -39,8 +39,6 @@ def all_products(request):
             Q(category__cat_name__icontains=query)
         )
 
-    if category_id:
-        products = products.filter(category_id=category_id)
     categories = Category.objects.all()
 
     category = request.GET.getlist('category')  
@@ -100,7 +98,12 @@ def all_products(request):
     page_number = request.GET.get('page')   # current page number
     page_object = paginator.get_page(page_number)   # display 10 products on curret page
 
-      
+
+    selected_category = Category.objects.filter(id = category_id).first()
+    if selected_category:
+        selected_category = selected_category.cat_name
+    else:
+        selected_category = 'all products'
 
     context = {
         'page_object': page_object , 
@@ -113,6 +116,8 @@ def all_products(request):
         'view' : view ,
         'request' : request , 
         'heading' : heading,
+        'search_query' : query ,
+        'selected_category' : selected_category ,
         }
 
     return render(request, 'products/all_products.html', context)
@@ -140,7 +145,12 @@ def contact(request):
 
 def product_details(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    return render(request, 'products/product_details.html', {'product': product})
+    image = product.details_image.all()
+    valid_colors = []
+    for img in image:
+        if img.colors and img.colors.lower() != "none":
+            valid_colors.append(img)
+    return render(request, 'products/product_details.html', {'product': product , 'valid_colors' : valid_colors})
 
 
 def cart(request):                        
@@ -164,7 +174,7 @@ def cart(request):
         discount += item_discount
         total_quantity += item.quantity
 
-    if total>=2000:
+    if total>=2000 or total==0:
         shipping = 0
     else:
         shipping = 199
@@ -212,6 +222,9 @@ def decrease(request , item_id):
         item.save()
     return redirect('cart')    
 
+
+
+
 #wishlist
 def wishlist(request):
     wishlist_id = request.session.get('register_id')   #current user login session
@@ -246,4 +259,16 @@ def delete_from_wishlist(request , product_id):
     return redirect('wishlist')
    
 
+def buy_now(request):
+    if request.method == "POST":
+        product_id = request.POST.get("product_id") 
+        product = get_object_or_404(Product , id = product_id)
 
+        request.session['buy_now_product'] = {
+            'id' : product.id , 
+            'quantity' : 1
+        }
+
+        return redirect('address')
+
+    return redirect('all_products')
