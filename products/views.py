@@ -155,7 +155,7 @@ def product_details(request, product_id):
 
 def cart(request):                        
 
-    cart_id = request.session.get('register_id')   #current user login session
+    cart_id = request.session.get('register_id')   
 
     if not cart_id:
         return redirect('login') 
@@ -191,7 +191,9 @@ def cart(request):
 
 def add_to_cart(request , product_id):
     register_id = request.session.get('register_id')
-    product = get_object_or_404(Product, id= product_id) # iss line k
+    if not register_id:
+        return redirect('login')
+    product = get_object_or_404(Product, id= product_id) 
 
     # Use register_id, not request.user
     cart, created = CartItem.objects.get_or_create(user_id=register_id, product=product)
@@ -227,7 +229,7 @@ def decrease(request , item_id):
 
 #wishlist
 def wishlist(request):
-    wishlist_id = request.session.get('register_id')   #current user login session
+    wishlist_id = request.session.get('register_id')   
 
     if not wishlist_id:
         return redirect('login') 
@@ -239,6 +241,8 @@ def wishlist(request):
 
 def add_to_wishlist(request,product_id):
     wishlist_id =request.session.get('register_id')
+    if not wishlist_id:
+        return redirect('login')
     product = get_object_or_404(Product , id = product_id)
 
     wishlist = Wishlist.objects.filter(user_id = wishlist_id,product = product).first()
