@@ -17,6 +17,7 @@ nav.navbar {
 
 
 
+
   .search-icon-btn {
     position: absolute;
     top: 50%;
@@ -151,7 +152,7 @@ a.btn-view-all {
     height: 420px; /* consistent height */
     scroll-snap-align: start;
   }
-/* deals of the day end */
+/* deals of the day end */ 
 
 
 /* deals banner */
@@ -169,6 +170,12 @@ a.btn-view-all {
 
 
 
+@media (max-width: 576px) {
+  .navbar-brand img {
+    max-height: 45px;
+    max-width: 140px;
+  }
+}
 
 
 
@@ -343,6 +350,8 @@ a.btn-view-all {
     overflow: hidden;
   }
 
+
+
   @keyframes floatUpDown {
     0%, 100% {
       transform: translateX(-50%) translateY(0);
@@ -363,3 +372,52 @@ a.btn-view-all {
   background-color: red;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
+
+
+/* deals */
+
+  .position-banner {
+    position: relative;
+    height: 410px;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+
+  .position-banner img.bg-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+
+  .floating-headphone {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 150px;
+    animation: floatUpDown 2.5s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  @keyframes floatUpDown {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-20px);
+    }
+  }
+
+
+
+  .blink {
+    animation: blink-animation 1s steps(2, start) infinite;
+  }
+
+  @keyframes blink-animation {
+    to {
+      visibility: hidden;
+    }
+  }

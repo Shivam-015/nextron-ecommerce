@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
   <style>
-    .register-container {
+    .login-container {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,7 +23,7 @@
       padding: 20px;
     }
 
-    .register-wrapper {
+    .login-wrapper {
       display: flex;
       flex-direction: row;
       max-width: 950px;
@@ -34,7 +34,7 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
 
-    .register-form {
+    .login-form {
       flex: 1;
       padding: 60px 50px;
     }
@@ -60,22 +60,22 @@
       background-color: #333;
     }
 
-    .register-image {
+    .login-image {
       flex: 1;
       padding: 50px;
       background: url('{% static "images/login1.png" %}') center bottom/cover no-repeat;
     }
 
     @media (max-width: 768px) {
-      .register-wrapper {
+      .login-wrapper {
         flex-direction: column;
       }
 
-      .register-image {
-        height: 200px;
+      .login-image {
+        display: none;
       }
 
-      .register-form {
+      .login-form {
         padding: 30px 20px;
       }
     }
@@ -100,11 +100,11 @@
     </div>
   {% endif %}
 
-  <div class="register-container">
-    <div class="register-wrapper">
+  <div class="login-container">
+    <div class="login-wrapper">
 
       <!-- Login Form Section -->
-      <div class="register-form">
+      <div class="login-form">
         
         <img src="{% static 'images/logo.png' %}" alt="Logo" class="mb-3" style="width: 50px;">
         <h5 class="fw-bold">Welcome to <span class="text-primary">Nextron</span></h5>
@@ -134,7 +134,7 @@
       </div>
 
       <!-- Image Section -->
-      <div class="register-image"></div>
+      <div class="login-image"></div>
     </div>
   </div>
 

@@ -87,7 +87,7 @@ def all_products(request):
     if is_deals:
         filtered_deals = []
         for product in products:
-            if product.discount_percent() > 15:
+            if product.discount_percent() > 5:
                 filtered_deals.append(product)
         products = filtered_deals
         heading = "Deals of the Day"
@@ -276,3 +276,7 @@ def buy_now(request):
         return redirect('address')
 
     return redirect('all_products')
+
+
+def about(request):
+    return render(request, 'ecommerce/about.html')

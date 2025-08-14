@@ -53,60 +53,82 @@
 
 
     <!-- Custom Styles -->
-    <style>
-      .exclusive-text {
-        font-family: 'Great Vibes', cursive;
-        font-size: 4.1rem;
-        color: #333;
-      }
+<style>
+  .exclusive-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4.1rem;
+    color: #333;
+  }
 
-      .headline-text {
-        font-family: 'Poppins', sans-serif;
-        font-size: 5.5rem;
-        font-weight: 900;
-        letter-spacing: 2px;
-        margin-top: -35px;
-      }
+  .headline-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 5.5rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-top: -35px;
+    line-height: 1.1;
+    word-break: break-word;
+  }
 
-      .headline-text .head {
-        color: transparent;
-        -webkit-text-stroke: 4px #b38d6e;
-      }
+  .headline-text .head {
+    color: transparent;
+    -webkit-text-stroke: 4px #b38d6e;
+  }
 
-      .headline-text .phone {
-        color: #b38d6e;
-      }
+  .headline-text .phone {
+    color: #b38d6e;
+  }
 
-      .subtext-text {
-        font-family: 'Poppins', sans-serif;
-        font-size: 1.3rem;
-        color: #444;
-        max-width: 550px;
-        line-height: 1.6;
-      }
+  .subtext-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    color: #444;
+    max-width: 550px;
+    line-height: 1.6;
+  }
 
-      .btn-shop {
-        font-family: 'Poppins', sans-serif;
-        font-size: 1.1rem;
-        padding: 12px 28px;
-        border-radius: 50px;
-        z-index: 3;
-      }
+  .btn-shop {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    padding: 12px 28px;
+    border-radius: 50px;
+    z-index: 3;
+  }
 
-      @media (max-width: 768px) {
-        .exclusive-text {
-          font-size: 2.2rem;
-        }
+  /* ✅ MOBILE VIEW FIX */
+  @media (max-width: 768px) {
+    .exclusive-text {
+      font-size: 2.2rem;
+    }
 
-        .headline-text {
-          font-size: 3rem;
-        }
+    .headline-text {
+      font-size: 2.7rem;
+      letter-spacing: 1px;
+      margin-top: -10px;
+      word-break: break-word;
+    }
 
-        .subtext-text {
-          font-size: 1rem;
-        }
-      }
-    </style>
+    .headline-text .head {
+      -webkit-text-stroke: 2px #b38d6e;
+    }
+
+    .subtext-text {
+      font-size: 0.95rem;
+      max-width: 90vw;
+    }
+
+    .btn-shop {
+      font-size: 0.95rem;
+      padding: 10px 24px;
+    }
+
+    .carousel-item .text-start {
+      padding-left: 1.5rem !important;
+      padding-right: 1.5rem !important;
+    }
+  }
+</style>
+
 
 
   </div>
@@ -171,25 +193,55 @@
   <!-- Slide 3 -->
 <div class="carousel-item">
   <div class="position-relative" style="height: 90vh; overflow: hidden; font-family: 'Poppins', sans-serif;">
-    <img src="{% static 'images/home-section2.png' %}" class="w-100 h-100 object-fit-cover" style="object-position: center 65%;" alt="Smart Watch Banner">
-    
-    <div class="position-absolute top-50 start-0 translate-middle-y text-start ps-5" style="max-width: 500px;">
-      <!-- Stylish font just for heading -->
-      <h1 class="mb-1" style="font-family: 'Orbitron', sans-serif; font-size: 3.2rem; color: #222;">EXPERIENCE FUTURE</h1>
-      
-      <h4 class="text-dark fw-light mb-2" style="letter-spacing: 1px;">SMARTWEAR REDEFINED</h4>
-      <h5 class="fw-semibold text-dark mb-3" style="font-size: 1.5rem;">UNLOCK THE POWER ON YOUR WRIST</h5>
-      
-      <p class="text-muted mb-4" style="font-size: 1rem;">
-        Track. Connect. Elevate. Discover the perfect blend of style and innovation in our latest smartwatches.
-      </p>
 
-      <a href="#" class="btn px-4 py-2 mt-2" style="background: linear-gradient(to right, #a18cd1, #fbc2eb); border: none; border-radius: 25px; color: white; font-weight: 600;">
-        EXPLORE NOW
-      </a>
-    </div>
+    <!-- Background Image -->
+    <img src="{% static 'images/home-section2.png' %}" 
+         class="w-100 h-100 object-fit-cover" 
+         style="object-position: center 75%;" 
+         alt="Smart Watch Banner">
+
+    <!-- Text Content -->
+    <!-- Text Content -->
+<div class="banner-text-content position-absolute translate-middle-y top-50" 
+     style="left: 4%; max-width: 500px; width: 100%;">
+
+  <h1 class="mb-1 text-uppercase fw-bold" 
+      style="font-family: 'Orbitron', sans-serif; font-size: 3.4rem; color: #3f3f3f;">
+    EXPERIENCE FUTURE
+  </h1>
+
+  <h4 class="fw-light mb-2" style="letter-spacing: 1px; color: #9982cf;">
+    SMARTWEAR REDEFINED
+  </h4>
+
+  <p class="mb-4" style="font-size: 1.4rem; color: #b22786;">
+    Track. Connect. Elevate. Discover the perfect blend of style and innovation in our latest smartwatches.
+  </p>
+
+  <a href="#" class="btn px-4 py-2 mt-2" 
+     style="background: linear-gradient(to right, #a18cd1, #fbc2eb); border: none; border-radius: 25px; color: white; font-weight: 600;">
+    EXPLORE NOW
+  </a>
+</div>
+
+
+    <!-- Mobile fix -->
+    <style>
+      @media (max-width: 768px) {
+        .banner-text-content {
+          top: 12% !important;
+          transform: none !important;
+        }
+      }
+    </style>
+
   </div>
 </div>
+
+
+
+
+
 
 
 </div>
@@ -238,81 +290,70 @@
 <div class="container">
   <h4 class="fw-bold mb-3">Featured Products</h4>
   <hr>
-  <div class="row ms-0 me-0">
-    <!-- Scrollable Products Right -->
-    <div class="col-lg-12 position-relative overflow-auto hide-scrollbar">
-      <!-- Scrollable wrapper -->
-      <div class="position-relative">
-        <button id="scrollLeftBtn"
-          class="btn position-absolute top-50 start-0 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
-          style="z-index: 10; width: 36px; height: 36px;">
-          <i class="bi bi-chevron-left fs-5 m-0 p-0"></i>
-        </button>
+  <div class="row mx-0">
+    <div class="col-12 position-relative">
+      
+      <!-- Left Scroll Button -->
+      <button id="scrollLeftBtn"
+        class="btn position-absolute top-50 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
+        style="left: -20px; z-index: 10; width: 36px; height: 36px;">
+        <i class="bi bi-chevron-left fs-5 m-0 p-0"></i>
+      </button>
 
-        <!-- Products Scrollable -->
-        <div id="productScroll" class="d-flex overflow-auto gap-3 px-2" style="scroll-behavior: smooth;">
-    {% for product in featured %}
-    <div class="col-md-3 col-sm-6 mb-4">
-    <div class="card border-0 shadow position-relative h-100 rounded-4 overflow-hidden product-card hover-shadow-lg">
-
-      <!-- Product Image -->
-      <div class="position-relative bg-white text-center p-2" style="height: 220px;">
-        
-        <!-- Wishlist Icon -->
-        <button class="btn position-absolute top-0 end-0 m-2 rounded-circle wishlist-btn shadow-sm"
+      <!-- Scrollable Wrapper -->
+      <div id="productScroll" class="d-flex overflow-auto gap-3 px-2 hide-scrollbar" style="scroll-behavior: smooth;">
+        {% for product in featured %}
+        <div class="mb-4" style="min-width: 300px; max-width: 260px; flex: 0 0 auto;">
+          <div class="card border-0 shadow position-relative h-100 rounded-4 overflow-hidden product-card hover-shadow-lg">
+            <!-- Product Image -->
+            <div class="position-relative bg-white text-center p-2" style="height: 220px;">
+              <!-- Wishlist Icon -->
+              <button class="btn position-absolute top-0 end-0 m-2 rounded-circle wishlist-btn shadow-sm"
                 data-product-id="{{ product.id }}"
                 onclick="event.stopPropagation(); toggleWishlist(this)"
                 title="Toggle wishlist">
-          <i class="{% if product.id in wishlist_ids %}fas{% else %}far{% endif %} fa-heart text-danger"></i>
-        </button>
+                <i class="{% if product.id in wishlist_ids %}fas{% else %}far{% endif %} fa-heart text-danger"></i>
+              </button>
 
-        {% with product.details_image.all|first as first_image %}
-          {% if first_image %}
-            <img src="{{ first_image.image.url }}" class="h-100 p-1 w-100 rounded-4" style="object-fit: contain; background-color: #faf6e9;" alt="{{ product.product_name }}">
-          {% else %}
-            <img src="{% static 'images/no-image.png' %}" class="h-100 p-3" style="object-fit: contain;" alt="No Image">
-          {% endif %}
-        {% endwith %}
-      </div>
+              {% with product.details_image.all|first as first_image %}
+                {% if first_image %}
+                  <img src="{{ first_image.image.url }}" class="h-100 p-1 w-100 rounded-4" style="object-fit: contain; background-color: #faf6e9;" alt="{{ product.product_name }}">
+                {% else %}
+                  <img src="{% static 'images/no-image.png' %}" class="h-100 p-3" style="object-fit: contain;" alt="No Image">
+                {% endif %}
+              {% endwith %}
+            </div>
 
-      <!-- Card Body -->
-      <div class="card-body text-center position-relative">
-
-        <a href="{% url 'product_details' product.id %}" class="stretched-link"></a>
-
-        <!-- Title -->
-        <h6 class="fw-semibold text-truncate mb-2">{{ product.product_name }}</h6>
-
-        <!-- Prices -->
-        <div class="mb-3">
-          <span class="fw-bold fs-5 text-dark">₹ {{ product.discount_price }}</span>
-          {% if product.original_price and product.discount_price != product.original_price %}
-            <span class="text-muted text-decoration-line-through ms-2">₹ {{ product.original_price }}</span>
-          {% endif %}
+            <!-- Card Body -->
+            <div class="card-body text-center position-relative">
+              <a href="{% url 'product_details' product.id %}" class="stretched-link"></a>
+              <h6 class="fw-semibold text-truncate mb-2">{{ product.product_name }}</h6>
+              <div class="mb-3">
+                <span class="fw-bold fs-5 text-dark">₹ {{ product.discount_price }}</span>
+                {% if product.original_price and product.discount_price != product.original_price %}
+                  <span class="text-muted text-decoration-line-through ms-2">₹ {{ product.original_price }}</span>
+                {% endif %}
+              </div>
+              <div class="d-flex justify-content-center">
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-dark rounded-pill w-75">Add to cart</a>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <!-- Button -->
-        <div class="d-flex justify-content-center">
-          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-dark rounded-pill w-75">Add to cart</a>
-        </div>
-
+        {% endfor %}
       </div>
-    </div>
 
+      <!-- Right Scroll Button -->
+      <button id="scrollRightBtn"
+        class="btn position-absolute top-50 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
+        style="right: -20px; z-index: 10; width: 36px; height: 36px;">
+        <i class="bi bi-chevron-right fs-5 m-0 p-0"></i>
+      </button>
+      
     </div>
-    {% endfor %}
- </div>
-        <button id="scrollRightBtn"
-          class="btn position-absolute top-50 end-0 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
-          style="z-index: 10; width: 36px; height: 36px;">
-          <i class="bi bi-chevron-right fs-5 m-0 p-0"></i>
-        </button>
-
-      </div>
-    </div>
-    
   </div>
 </div>
+
 
 <!-- Banner Section Above Deals of the Day -->
 <div class="mt-4">
@@ -324,6 +365,7 @@
 
 <!-- deals of the day -->
 <div class="container py-5 px-4 mt-4" style='background-image: url("{% static "images/deals.avif" %}"); background-size: cover; background-repeat: no-repeat; background-position: center;'>
+
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="fw-semibold mb-1">Deals of the Day</h4>
@@ -333,85 +375,31 @@
 
   <div class="row">
     <!-- Banner Left -->
-     <style>
-  .position-banner {
-    position: relative;
-    height: 410px;
-    overflow: hidden;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-  }
-
-  .position-banner img.bg-image {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 0.5rem;
-  }
-
-  .floating-headphone {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 150px;
-    animation: floatUpDown 2.5s ease-in-out infinite;
-    z-index: 2;
-  }
-
-  @keyframes floatUpDown {
-    0%, 100% {
-      transform: translateX(-50%) translateY(0);
-    }
-    50% {
-      transform: translateX(-50%) translateY(-20px);
-    }
-  }
-</style>
-
     <div class="col-lg-3 mb-4 position-relative">
-  <!-- Banner Image -->
-  <img src="{% static 'images/banner.jpg' %}" class="img-fluid rounded shadow w-100" style="height: 410px; object-fit: cover;" alt="Deals Banner">
+      <img src="{% static 'images/banner.jpg' %}" class="img-fluid rounded shadow w-100" style="height: 410px; object-fit: cover;" alt="Deals Banner">
+      <div class="position-absolute top-0 start-50 translate-middle-x mt-3 d-flex align-items-center gap-2" style="z-index: 2;">
+        <div class="bg-danger text-white px-3 py-2 rounded-2 fw-semibold">12d</div>
+        <span class="text-muted fs-5 blink">:</span>
+        <div class="bg-danger text-white px-3 py-2 rounded-2 fw-semibold">13h</div>
+        <span class="text-muted fs-5 blink">:</span>
+        <div class="bg-danger text-white px-3 py-2 rounded-2 fw-semibold">35m</div>
+      </div>
+    </div>
 
-  <!-- Static Timer Overlay at Top Center -->
-  <div class="position-absolute top-0 start-50 translate-middle-x mt-3 d-flex align-items-center gap-2" style="z-index: 2;">
-    <div class="bg-danger text-white px-3 py-2 rounded-2 fw-semibold">12d</div>
-    <span class="text-muted fs-5 blink">:</span>
-    <div class="bg-danger text-white px-3 py-2 rounded-2 fw-semibold">13h</div>
-    <span class="text-muted fs-5 blink">:</span>
-    <div class="bg-danger text-white px-3 py-2 rounded-2 fw-semibold">35m</div>
-  </div>
-</div>
-<style>
-  .blink {
-    animation: blink-animation 1s steps(2, start) infinite;
-  }
-
-  @keyframes blink-animation {
-    to {
-      visibility: hidden;
-    }
-  }
-</style>
-
-
-    <!-- Scrollable Products Right -->
-    <div class="col-lg-9 position-relative overflow-auto hide-scrollbar">
-      <!-- Scrollable wrapper -->
+    <!-- Scrollable Product Section -->
+    <div class="col-lg-9">
       <div class="position-relative">
-        <button id="scrollLeftBtn"
-          class="btn position-absolute top-50 start-0 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
-          style="z-index: 10; width: 36px; height: 36px;">
+
+        <!-- Left Scroll Button -->
+        <button id="scrollLeftBtn1" class="btn position-absolute top-50 start-0 translate-middle-y bg-white rounded-circle shadow d-flex justify-content-center align-items-center" style="z-index: 10; width: 36px; height: 36px;">
           <i class="bi bi-chevron-left fs-5 m-0 p-0"></i>
         </button>
 
-        <!-- Products Scrollable -->
-        <div id="productScroll" class="d-flex overflow-auto gap-3 px-5" style="scroll-behavior: smooth;">
+        <!-- Product Cards Scroll -->
+        <div id="productScroll1" class="d-flex overflow-auto gap-4 px-4" style="scroll-behavior: smooth;">
           {% for product in deals %}
-          <div class="card product-card border-0 shadow-sm p-3 flex-shrink-0"
-               style="width: 300px; height: 100%; scroll-snap-align: start;">
-          <a href="{% url 'product_details' product.id %}" class="stretched-link"></a>
-            <!-- Image -->
+          <div class="card product-card border-0 shadow-sm p-3 flex-shrink-0" style="width: 285px; scroll-snap-align: start;">
+            <a href="{% url 'product_details' product.id %}" class="stretched-link"></a>
             {% with product.details_image.all|first as first_image %}
               {% if first_image %}
                 <img src="{{ first_image.image.url }}" class="card-img-top bg-light rounded-4" style="height: 180px; object-fit: contain;" alt="{{ product.product_name }}">
@@ -420,32 +408,21 @@
               {% endif %}
             {% endwith %}
 
-            <!-- Hover Icons -->
-            <div class="position-absolute top-0 end-0 m-2 d-flex flex-column gap-2 opacity-0 hover-icons transition">
-              <button class="btn position-absolute top-0 end-0 m-2 rounded-circle wishlist-btn shadow-sm"
-                        data-product-id="{{ product.id }}"
-                        onclick="event.stopPropagation(); toggleWishlist(this)"
-                        title="Toggle wishlist">
-                  <i class="{% if product.id in wishlist_ids %}fas{% else %}far{% endif %} fa-heart text-danger"></i>
-                </button>
-            </div>
-
-            <!-- Body -->
             <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
               <div>
                 <div class="mb-1">
-                {% with rating=product.reviews %}
-                  {% for i in "12345" %}
-                    {% if rating >= forloop.counter %}
-                      <i class="fa fa-star text-warning"></i>
-                    {% elif rating >= forloop.counter0|add:"0.5" %}
-                      <i class="fa fa-star-half-alt text-warning"></i>
-                    {% else %}
-                      <i class="fa fa-star text-secondary"></i>
-                    {% endif %}
-                  {% endfor %}
-                {% endwith %}
-              </div>
+                  {% with rating=product.reviews %}
+                    {% for i in "12345" %}
+                      {% if rating >= forloop.counter %}
+                        <i class="fa fa-star text-warning"></i>
+                      {% elif rating >= forloop.counter0|add:"0.5" %}
+                        <i class="fa fa-star-half-alt text-warning"></i>
+                      {% else %}
+                        <i class="fa fa-star text-secondary"></i>
+                      {% endif %}
+                    {% endfor %}
+                  {% endwith %}
+                </div>
                 <a href="#" class="text-decoration-none fw-semibold text-dark d-block mb-2">
                   {{ product.product_name|truncatewords:5 }}
                 </a>
@@ -457,11 +434,9 @@
                     <span class="fw-bold fs-5 text-dark">₹{{ product.discount_price }}</span>
                     <span class="text-muted text-decoration-line-through">₹{{ product.original_price }}</span>
                   </div>
-                 <a href="{% url 'add_to_cart' product.id %}" class="btn btn-outline-dark rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
-  <i class="bi bi-cart"></i>
-</a>
-
-
+                  <a href="{% url 'add_to_cart' product.id %}" class="btn btn-outline-dark rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                    <i class="bi bi-cart"></i>
+                  </a>
                 </div>
 
                 {% widthratio product.stock 200 100 as percent_width %}
@@ -474,9 +449,9 @@
           </div>
           {% endfor %}
         </div>
-        <button id="scrollRightBtn"
-          class="btn position-absolute top-50 end-0 translate-middle-y bg-white rounded-circle shadow d-none d-md-flex justify-content-center align-items-center"
-          style=" width: 36px; height: 36px;">
+
+        <!-- Right Scroll Button -->
+        <button id="scrollRightBtn1" class="btn position-absolute top-50 end-0 translate-middle-y bg-white rounded-circle shadow d-flex justify-content-center align-items-center" style="z-index: 10; width: 36px; height: 36px;">
           <i class="bi bi-chevron-right fs-5 m-0 p-0"></i>
         </button>
 
@@ -484,6 +459,7 @@
     </div>
   </div>
 </div>
+
 
   
 <!-- new arrivals -->
@@ -514,51 +490,82 @@
     </div>
 
     <!-- Right Products -->
-    <div class="col-lg-8">
-      <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col-lg-8 position-relative overflow-auto hide-scrollbar">
+      <!-- Scroll Buttons -->
+      <button id="scrollLeftBtn2"
+        class="btn btn-light position-absolute top-50 start-0 translate-middle-y z-3 d-none d-md-flex rounded-circle shadow"
+        style="width: 36px; height: 36px;">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <!-- Scrollable Container -->
+      <div id="productScroll2" class="d-flex overflow-auto gap-4 px-4 hide-scrollbar" stylcde="scroll-behavior: smooth;">
         {% for product in new_arrivals %}
-        
-        <div class="col position-relative">
-        <a href="{% url 'product_details' product.id %}" class="stretched-link"></a>
+        <div class="card product-card border-0 shadow-sm p-3 flex-shrink-0" style="width: 285px; height: 100%;">
+          <a href="{% url 'product_details' product.id %}" class="stretched-link"></a>
 
-          <div class="d-flex gap-3 align-items-center">
-            <img src="{{ product.details_image.first.image.url }}" alt="{{ product.product_name }}" class="img-fluid" style="width: 150px; height: 150px; object-fit: contain; border-radius: 8px;">
+          {% with product.details_image.all|first as first_image %}
+          {% if first_image %}
+          <img src="{{ first_image.image.url }}" class="card-img-top bg-light rounded-4"
+            style="height: 180px; object-fit: contain;" alt="{{ product.product_name }}">
+          {% else %}
+          <img src="{% static 'images/no-image.png' %}" class="card-img-top p-3"
+            style="height: 180px; object-fit: contain;" alt="No Image">
+          {% endif %}
+          {% endwith %}
+
+          <!-- Body -->
+          <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
             <div>
-              <p class="mb-1 fw-semibold small text-dark">{{ product.product_name}}</p>
-
-              <!-- Ratings stars (optional static for now) -->
               <div class="mb-1">
                 {% with rating=product.reviews %}
-                  {% for i in "12345" %}
-                    {% if rating >= forloop.counter %}
-                      <i class="fa fa-star text-warning"></i>
-                    {% elif rating >= forloop.counter0|add:"0.5" %}
-                      <i class="fa fa-star-half-alt text-warning"></i>
-                    {% else %}
-                      <i class="fa fa-star text-secondary"></i>
-                    {% endif %}
-                  {% endfor %}
+                {% for i in "12345" %}
+                {% if rating >= forloop.counter %}
+                <i class="fa fa-star text-warning"></i>
+                {% elif rating >= forloop.counter0|add:"0.5" %}
+                <i class="fa fa-star-half-alt text-warning"></i>
+                {% else %}
+                <i class="fa fa-star text-secondary"></i>
+                {% endif %}
+                {% endfor %}
                 {% endwith %}
               </div>
-
-
-              <!-- Pricing -->
-              <div class="d-flex justify-content-between align-items-center px-2 mt-2">
-              {% if product.discount_price %}
-              <div>
-                <span class="text-muted text-decoration-line-through">₹ {{ product.original_price }}</span>
-                <span class="text-danger fw-bold">₹ {{ product.discount_price }}</span>
-              </div>
-              {% else %}
-              <span class="text-danger fw-bold">₹ {{ product.original_price }}</span>
-              {% endif %}
+              <a href="#" class="text-decoration-none fw-semibold text-dark d-block mb-2">
+                {{ product.product_name|truncatewords:5 }}
+              </a>
             </div>
+
+            <div>
+              <div class="mb-2 d-flex align-items-center justify-content-between flex-wrap">
+                <div>
+                  <span class="fw-bold fs-5 text-dark">₹{{ product.discount_price }}</span>
+                  <span class="text-muted text-decoration-line-through">₹{{ product.original_price }}</span>
+                </div>
+                <a href="{% url 'add_to_cart' product.id %}"
+                  class="btn btn-outline-dark rounded-3 p-2 d-flex align-items-center justify-content-center"
+                  style="width: 36px; height: 36px;">
+                  <i class="bi bi-cart"></i>
+                </a>
+              </div>
+              {% widthratio product.stock 200 100 as percent_width %}
+              <div class="progress mb-1" style="height: 6px;">
+                <div class="progress-bar bg-danger" style="width: {{ percent_width }}%;"></div>
+              </div>
+              <p class="text-muted small mb-0">Available: {{ product.stock }}</p>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
+
+      <!-- Right Button -->
+      <button id="scrollRightBtn2"
+        class="btn btn-light position-absolute top-50 end-0 translate-middle-y z-3 d-none d-md-flex rounded-circle shadow"
+        style="width: 36px; height: 36px;">
+        <i class="bi bi-chevron-right"></i>
+      </button>
     </div>
+
 
   </div>
 </div>

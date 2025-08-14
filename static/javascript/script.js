@@ -92,19 +92,85 @@ function changeImage(src) {
   }
 
 
-// for deals scroll
+// for featured scroll
+const scrollContainer = document.getElementById('productScroll');
+  const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+  const scrollRightBtn = document.getElementById('scrollRightBtn');
 
- const container = document.getElementById("productScroll");
-  const card = container.querySelector(".product-card");
-  const cardWidth = card.offsetWidth + 16;
+  // Show/hide buttons based on scroll position
+  function updateButtonVisibility() {
+    scrollLeftBtn.style.display = scrollContainer.scrollLeft > 0 ? 'flex' : 'none';
+    const maxScrollLeft = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+    scrollRightBtn.style.display = scrollContainer.scrollLeft < maxScrollLeft ? 'flex' : 'none';
+  }
 
-  document.getElementById("scrollRightBtn").addEventListener("click", () => {
-    container.scrollBy({ left: cardWidth, behavior: "smooth" });
+  scrollLeftBtn.addEventListener('click', () => {
+    scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
   });
 
-  document.getElementById("scrollLeftBtn").addEventListener("click", () => {
-    container.scrollBy({ left: -cardWidth, behavior: "smooth" });
-  })
+  scrollRightBtn.addEventListener('click', () => {
+    scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
+  });
+
+  scrollContainer.addEventListener('scroll', updateButtonVisibility);
+
+  // Initialize button visibility
+  window.addEventListener('load', updateButtonVisibility);
+
+
+// for deals scroll
+const scrollContainer1 = document.getElementById('productScroll1');
+  const scrollLeftBtn1 = document.getElementById('scrollLeftBtn1');
+  const scrollRightBtn1 = document.getElementById('scrollRightBtn1');
+
+  // Show/hide buttons based on scroll position
+  function updateButtonVisibility() {
+    scrollLeftBtn1.style.display = scrollContainer1.scrollLeft > 0 ? 'flex' : 'none';
+    const maxScrollLeft = scrollContainer1.scrollWidth - scrollContainer1.clientWidth;
+    scrollRightBtn1.style.display = scrollContainer1.scrollLeft < maxScrollLeft ? 'flex' : 'none';
+  }
+
+  scrollLeftBtn1.addEventListener('click', () => {
+    scrollContainer1.scrollBy({ left: -300, behavior: 'smooth' });
+  });
+
+  scrollRightBtn1.addEventListener('click', () => {
+    scrollContainer1.scrollBy({ left: 300, behavior: 'smooth' });
+  });
+
+  scrollContainer1.addEventListener('scroll', updateButtonVisibility);
+
+  // Initialize button visibility
+  window.addEventListener('load', updateButtonVisibility);
+
+
+// for new arrivals scroll
+const scrollContainer2 = document.getElementById('productScroll2');
+  const scrollLeftBtn2 = document.getElementById('scrollLeftBtn2');
+  const scrollRightBtn2 = document.getElementById('scrollRightBtn2');
+
+  // Show/hide buttons based on scroll position
+  function updateButtonVisibility() {
+    scrollLeftBtn2.style.display = scrollContainer2.scrollLeft > 0 ? 'flex' : 'none';
+    const maxScrollLeft = scrollContainer2.scrollWidth - scrollContainer2.clientWidth;
+    scrollRightBtn2.style.display = scrollContainer2.scrollLeft < maxScrollLeft ? 'flex' : 'none';
+  }
+
+  scrollLeftBtn2.addEventListener('click', () => {
+    scrollContainer2.scrollBy({ left: -300, behavior: 'smooth' });
+  });
+
+  scrollRightBtn2.addEventListener('click', () => {
+    scrollContainer2.scrollBy({ left: 300, behavior: 'smooth' });
+  });
+
+  scrollContainer2.addEventListener('scroll', updateButtonVisibility);
+
+  // Initialize button visibility
+  window.addEventListener('load', updateButtonVisibility);
+
+
+
 
 
   // for all products wishlist
