@@ -333,7 +333,8 @@ def google_login_success(request):
         user = Register.objects.create(
             name=name,
             email=email,
-            phone_no="0000000000",  
+            contact="0000000000",  
+            gender = "male" ,
             password="google_auth_user"
         )
         messages.success(request, "Account created.")
