@@ -16,5 +16,7 @@ urlpatterns = [
     path('delete-from-wishlist/<int:product_id>/' , views.delete_from_wishlist , name="delete_from_wishlist"),
     path('buy_now/' , views.buy_now , name="buy_now"),
     path('about/' , views.about , name="about"),
+    path( 'help_center/' , views.help_center , name='help_center'),
+    path( 'terms_conditions/' , views.terms_conditions , name='terms_conditions'),
 ] 
 

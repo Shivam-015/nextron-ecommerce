@@ -15,6 +15,28 @@ nav.navbar {
  position: relative;
 }
 
+/* Navbar hover underline */
+.navbar .nav-link {
+  position: relative;
+  text-decoration: none;
+  color: #fff; /* keep text light */
+  padding-bottom: 4px; /* space for underline */
+}
+
+.navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fff; 
+  transition: width 0.3s ease;
+}
+
+.navbar .nav-link:hover::after {
+  width: 100%;
+}
 
 
 
@@ -55,6 +77,19 @@ nav.navbar {
 .category-img:hover {
   transform: scale(1.1);
 }
+
+.category-item {
+  flex: 0 0 calc(100% / 7);  /* 6 items visible */
+  max-width: calc(100% / 7);
+}
+
+@media (max-width: 768px) {
+  .category-item {
+    flex: 0 0 calc(100% / 3);  /* 3 items visible */
+    max-width: calc(100% / 3);
+  }
+}
+
 
 
 
@@ -149,9 +184,31 @@ a.btn-view-all {
   }
 
   .product-card {
-    height: 420px; /* consistent height */
+    height: 420px; 
     scroll-snap-align: start;
   }
+
+  /* timer */
+  .timer-box {
+    background: #dc3545;
+    color: #fff;
+    border-radius: 12px;
+    padding: 10px 15px;
+    min-width: 50px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .timer-value {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .timer-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+
 /* deals of the day end */ 
 
 
@@ -350,6 +407,11 @@ a.btn-view-all {
     overflow: hidden;
   }
 
+  .headphone-text{
+    background: linear-gradient(90deg, #60194D, #00E5FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
 
   @keyframes floatUpDown {
@@ -421,3 +483,100 @@ a.btn-view-all {
       visibility: hidden;
     }
   }
+
+/* responsive title size */
+.heading-title {
+  font-size: 2rem;   
+  font-weight: 600;
+  text-transform: uppercase;
+  word-break: break-word;  
+}
+
+.short-heading {
+  font-size: 12px !important;
+  text-align: right;
+  padding-bottom: 1rem;
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .heading-title {
+    font-size: 2.2rem;
+  }
+  .short-heading {
+    font-size: 2rem;
+  }
+}
+
+/* Large laptop+ */
+@media (min-width: 1200px) {
+  .heading-title {
+    font-size: 2.2rem;
+  }
+  .short-heading {
+    font-size: 1.1rem;
+  }
+}
+
+/* reviews */
+.review-section {
+  margin: 30px 0;
+  background-color: #f1c5c539;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+}
+
+.review-section h5 {
+  font-size: 1rem;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.review-section .blockquote p {
+  font-size: 2rem; /* smaller default for mobile */
+  font-style: italic;
+  font-family: 'Dancing Script', cursive; 
+  line-height: 1.4;
+}
+
+.review-section blockquote footer {
+  font-size: 1rem;
+  margin-top: 1rem;
+  color: #888;
+}
+
+.custom-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.custom-indicators button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #bbb;  
+  border: none;
+  opacity: 1;
+  transition: background-color 0.3s ease;
+}
+
+.custom-indicators button.active {
+  background-color: #333; /* highlight active */
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .review-section .blockquote p {
+    font-size: 3rem; /* medium screens */
+  }
+}
+
+@media (min-width: 992px) {
+  .review-section .blockquote p {
+    font-size: 4rem; /* large screens */
+  }
+}
+
+/* reviews */

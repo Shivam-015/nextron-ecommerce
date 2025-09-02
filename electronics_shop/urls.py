@@ -52,7 +52,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('' , include('products.urls')),
     path('accounts/' , include('accounts.urls')),
-     #app ka url 
+     #apps url 
     path('auth/', include('social_django.urls', namespace='social')),
     path('google-login-success/', views.google_login_success, name='google_login_success'),
 

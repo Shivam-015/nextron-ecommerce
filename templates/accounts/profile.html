@@ -12,7 +12,6 @@
   }
 
 .account-sidebar {
-  width: 250px;
   font-size: 14px;
   padding: 1rem 0;
   background: #fff;
@@ -186,7 +185,7 @@
         <p class="sidebar-label">Manage account</p>
         <ul>
           <li class="active"><a href="{% url 'profile' %}" class="text-decoration-none text-dark"><i class="bi bi-person"></i> Personal Info </a></li>
-          <li><a href="{% url 'address' %}" class="text-decoration-none text-dark"><i class="bi bi-geo-alt"></i> Addresses</li>
+          <li><a href="{% url 'add_address' %}" class="text-decoration-none text-dark"><i class="bi bi-geo-alt"></i> Addresses</li>
         </ul>
       </div>
 
@@ -194,8 +193,8 @@
       <div class="sidebar-group">
         <p class="sidebar-label">Customer service</p>
         <ul>
-          <li><i class="bi bi-question-circle"></i> Help center</li>
-          <li><i class="bi bi-file-earmark-text"></i> Terms and conditions</li>
+          <li><a href="{% url 'help_center' %}" class="text-decoration-none text-dark"><i class="bi bi-question-circle"></i> Help center</a></li>
+          <li><a href="{% url 'terms_conditions' %}" class="text-decoration-none text-dark"><i class="bi bi-file-earmark-text"></i> Terms and conditions</a></li>
         </ul>
       </div>
 
@@ -215,7 +214,7 @@
 
         <!-- Basic Info -->
         <div class="info-section">
-          <div class="info-title">Basic info <a href="#" class="edit-link">Edit</a></div>
+          <div class="info-title">Basic info </div>
           <div class="info-value">{{ user.name }}</div>
           <div class="info-value">{{ user.gender }}</div>
         </div>
@@ -224,7 +223,7 @@
 
         <!-- Contact -->
         <div class="info-section">
-          <div class="info-title">Contact <a href="#" class="edit-link">Edit</a></div>
+          <div class="info-title">Contact </div>
           <div class="info-value">{{ user.email }}</div>
           <div class="info-value">{{ user.contact }} <span style="color: green;">Verified</span></div>
         </div>

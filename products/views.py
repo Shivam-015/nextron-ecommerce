@@ -84,6 +84,7 @@ def all_products(request):
         selected_sort = 'Newest First'
     
     is_deals = request.GET.get('deals') == 'true'
+    is_new = request.GET.get('new') == 'true'
     if is_deals:
         filtered_deals = []
         for product in products:
@@ -91,6 +92,9 @@ def all_products(request):
                 filtered_deals.append(product)
         products = filtered_deals
         heading = "Deals of the Day"
+    elif is_new:
+        products = products.order_by('-created_date')
+        heading = "New Arrivals"
     else:
         heading = "All Products"
 
@@ -169,6 +173,10 @@ def cart(request):
     for item in items:
         item_total = item.total_price()     # price of each product
         item_discount = item.discount_price()
+        
+        item.line_total = item_total
+        item.line_original_total = item.product.original_price * item.quantity
+        item.line_discount = item_discount
 
         total += item_total
         discount += item_discount
@@ -280,3 +288,9 @@ def buy_now(request):
 
 def about(request):
     return render(request, 'ecommerce/about.html')
+
+def help_center(request):
+    return render(request , 'ecommerce/help_center.html')
+
+def terms_conditions(request):
+    return render(request,'ecommerce/terms_conditions.html')    

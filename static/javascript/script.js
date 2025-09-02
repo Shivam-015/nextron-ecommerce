@@ -144,30 +144,30 @@ const scrollContainer1 = document.getElementById('productScroll1');
   window.addEventListener('load', updateButtonVisibility);
 
 
-// for new arrivals scroll
-const scrollContainer2 = document.getElementById('productScroll2');
-  const scrollLeftBtn2 = document.getElementById('scrollLeftBtn2');
-  const scrollRightBtn2 = document.getElementById('scrollRightBtn2');
+// // for new arrivals scroll
+// const scrollContainer2 = document.getElementById('productScroll2');
+//   const scrollLeftBtn2 = document.getElementById('scrollLeftBtn2');
+//   const scrollRightBtn2 = document.getElementById('scrollRightBtn2');
 
-  // Show/hide buttons based on scroll position
-  function updateButtonVisibility() {
-    scrollLeftBtn2.style.display = scrollContainer2.scrollLeft > 0 ? 'flex' : 'none';
-    const maxScrollLeft = scrollContainer2.scrollWidth - scrollContainer2.clientWidth;
-    scrollRightBtn2.style.display = scrollContainer2.scrollLeft < maxScrollLeft ? 'flex' : 'none';
-  }
+//   // Show/hide buttons based on scroll position
+//   function updateButtonVisibility() {
+//     scrollLeftBtn2.style.display = scrollContainer2.scrollLeft > 0 ? 'flex' : 'none';
+//     const maxScrollLeft = scrollContainer2.scrollWidth - scrollContainer2.clientWidth;
+//     scrollRightBtn2.style.display = scrollContainer2.scrollLeft < maxScrollLeft ? 'flex' : 'none';
+//   }
 
-  scrollLeftBtn2.addEventListener('click', () => {
-    scrollContainer2.scrollBy({ left: -300, behavior: 'smooth' });
-  });
+//   scrollLeftBtn2.addEventListener('click', () => {
+//     scrollContainer2.scrollBy({ left: -300, behavior: 'smooth' });
+//   });
 
-  scrollRightBtn2.addEventListener('click', () => {
-    scrollContainer2.scrollBy({ left: 300, behavior: 'smooth' });
-  });
+//   scrollRightBtn2.addEventListener('click', () => {
+//     scrollContainer2.scrollBy({ left: 300, behavior: 'smooth' });
+//   });
 
-  scrollContainer2.addEventListener('scroll', updateButtonVisibility);
+//   scrollContainer2.addEventListener('scroll', updateButtonVisibility);
 
-  // Initialize button visibility
-  window.addEventListener('load', updateButtonVisibility);
+//   // Initialize button visibility
+//   window.addEventListener('load', updateButtonVisibility);
 
 
 
@@ -187,5 +187,13 @@ const scrollContainer2 = document.getElementById('productScroll2');
   }
 
 
-
-
+// deals timer
+  const end = new Date("2025-09-15T23:59:59").getTime();
+  const t = setInterval(() => {
+    let d = end - Date.now();
+    if (d <= 0) return document.getElementById("deal-timer").innerHTML="Deal Expired!", clearInterval(t);
+    document.getElementById("days").innerText = Math.floor(d/864e5)+"d";
+    document.getElementById("hours").innerText = Math.floor(d%(864e5)/36e5)+"h";
+    document.getElementById("minutes").innerText = Math.floor(d%(36e5)/6e4)+"m";
+    document.getElementById("seconds").innerText = Math.floor(d%(6e4)/1e3)+"s";
+  },1000);

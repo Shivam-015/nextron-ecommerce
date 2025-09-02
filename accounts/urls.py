@@ -17,4 +17,6 @@ urlpatterns = [
     path('reset-password/', views.reset_password, name='reset_password'),
     path('my-orders/', views.order_history, name='my_orders'),
     path('track-order<int:order_id>/' , views.track_order , name='track_order'),
+    path('delete_address<int:address>/' , views.delete_address , name="delete_address"),
+    
 ]

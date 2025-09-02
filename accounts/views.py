@@ -56,7 +56,7 @@ def user_login(request):
             if check_password(password_var , form_data.password):
                 request.session['register_id'] = form_data.id   # register_id is variable and it stores the id of current user
                 request.session['user_email'] = form_data.email  
-                messages.success(request,"Login Successfull")
+                messages.success(request,"Login Successful!")
                 return redirect('home')
             else:
                 messages.error(request,"Incorrect Password!")
@@ -70,7 +70,7 @@ def user_login(request):
 
 def logout(request):
     request.session.flush()
-    messages.success(request,"Logout Successfull")
+    messages.error(request,"Logout Successful!")
     return redirect('login')
 
 
@@ -182,8 +182,8 @@ def address(request):
                     'quantity' : 1,
                 }],
                 mode= 'payment',
-                success_url= 'https://nextron-ecommerce.onrender.com/accounts/payment_success/' , 
-                cancel_url= 'https://nextron-ecommerce.onrender.com/accounts/payment_cancel' ,
+                success_url= 'http://127.0.0.1:8000//accounts/payment_success/' , 
+                cancel_url= 'http://127.0.0.1:8000//accounts/payment_cancel' ,
                 customer_email= email_shipping ,
             )
 
@@ -210,8 +210,10 @@ def address(request):
 def add_address(request):
     register_id = request.session.get('register_id')
     if not register_id:
-        return redirect('login') 
+        return redirect('login')
     user = Register.objects.get(id = register_id)
+    addresses = Billing.objects.filter(user_id = register_id) 
+    
     if request.method == 'POST':
         name = request.POST.get('full_name')
         email = request.POST.get('email_shipping')
@@ -233,9 +235,14 @@ def add_address(request):
             city = city ,
             zip_code = zip_code
         )
-        return redirect('profile')
+        return redirect('add_address')
 
-    return render(request , 'cart/address.html')
+    return render(request , 'cart/address.html' , {'addresses' : addresses})
+
+def delete_address(request , address):
+    address = get_object_or_404(Billing, id=address)
+    address.delete()
+    return redirect('add_address') 
 
 
 def payment_success(request, order_id=None):
@@ -326,21 +333,18 @@ def google_login_success(request):
         user = Register.objects.create(
             name=name,
             email=email,
-            contact="0000000000",  # default value
-            gender="other",
+            phone_no="0000000000",  
             password="google_auth_user"
         )
         messages.success(request, "Account created.")
     else:
-        messages.info(request, "Logged in successfully.")
+        messages.success(request, "Login successful!")
 
     request.session.flush()
     request.session['register_id'] = user.id
     request.session['user_email'] = user.email
 
     return redirect('home')
-
-
 
 def forget_password(request):
     if request.method == "POST":
@@ -400,6 +404,8 @@ def reset_password(request):
 
 def order_history(request):
     user_id = request.session.get('register_id')
+    if not user_id:
+        return redirect('login')
     user = Register.objects.get(id=user_id)
     orders = Order.objects.filter(user=user).prefetch_related('items__product').order_by('-created_at')
     return render(request, 'accounts/order_history.html', {'orders': orders})
