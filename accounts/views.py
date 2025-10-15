@@ -185,8 +185,8 @@ def address(request):
                 }],
                 mode= 'payment',
 
-                success_url= 'https://nextron-ecommerce.onrender.com//accounts/payment_success/', 
-                cancel_url= 'https://nextron-ecommerce.onrender.com//accounts/payment_cancel/' ,
+                success_url= 'https://nextron-ecommerce.onrender.com/accounts/payment_success/', 
+                cancel_url= 'https://nextron-ecommerce.onrender.com/accounts/payment_cancel/' ,
                
                 customer_email= email_shipping ,
             )
