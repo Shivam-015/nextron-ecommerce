@@ -93,7 +93,7 @@
                 <a href="{% url 'add_to_cart' product.id %}" class="btn btn-dark btn-lg px-4 shadow">
                     <i class="bi bi-cart-plus me-2"></i>Add to cart
                 </a>
-                <form method="POST" action="{% url 'buy_now' %}">
+                <form method="POST" action="{% url 'add_to_cart' product.id %}">
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{ product.id }}">
                     <button class="btn btn-outline-success btn-lg px-4 shadow">

@@ -115,6 +115,7 @@ def address(request):
                 zip_code = zip_code,
                 order_notes = order_notes
             )
+        # start of buy now
         buy_now = request.session.get('buy_now')
         grand_total = 0
         items = []
@@ -128,6 +129,7 @@ def address(request):
                 'quantity' : quantity , 
                 'price' : price
             })
+        # end of buy now
         else:
             cart = CartItem.objects.filter(user_id = register_id)
             if not cart.exists():
@@ -182,8 +184,10 @@ def address(request):
                     'quantity' : 1,
                 }],
                 mode= 'payment',
-                success_url= 'https://nextron-ecommerce.onrender.com//accounts/payment_success/' , 
-                cancel_url= 'https://nextron-ecommerce.onrender.com//accounts/payment_cancel' ,
+
+                success_url= 'https://nextron-ecommerce.onrender.com//accounts/payment_success/', 
+                cancel_url= 'https://nextron-ecommerce.onrender.com//accounts/payment_success/' ,
+               
                 customer_email= email_shipping ,
             )
 
